@@ -1,0 +1,68 @@
+server:
+  port: 10001
+
+spring:
+  datasource:
+    url: ENC(eWc1T1yPeaYyItQMFobN+CIFPtFqCcZ+D7XwnonV+Mq14oPtL09zkVC8PTa1LyelYkE1eJYdz1EZkiqH8B1KlEVmNSnk31x+51O0QEtAaf1HVSrm1CeqhrKVMLaNWzACOklYg5Kddq3iUN1X+JldXdIb9RSI3k8j)
+    username: ENC(s4fiAU8BzrLUOIrkVths27+cFHvPLHhN)
+    password: ENC(MauO4NGB9Rf1GO9i7A7igHy/xKzH85eQ)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #   ?????????filters????????sql?????'wall'?????
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  redis:
+    host: ENC(mTKuwMCKFVs4GUavLZIiU0ZTAFE5Hr4U)
+    port: 6379
+    connect-timeout: 10s
+    password: ENC(dPDrkE8HUb+0yu21xt2JZEOePrBTLbYo)
+    database: 0
+    lettuce:
+      pool:
+        max-active: -1
+        max-wait: -1
+        max-idle: 16
+        min-idle: 8
+
+sa-token:
+  # ticket ??,??cookie??
+  token-name: sa-token
+  # token??????s ??30?, -1??????
+  timeout: 3600
+  # token??
+  token-style: random-32
+  # ????? header ??? Token
+  is-read-head: true
+  # ????????
+  auto-renew: false
+  # ????????s???????? 1800 (30??)???????30????????Token?????
+  activity-timeout: 1800
+  # ???????????? (?true???????, ?false?????)
+  is-concurrent: false
+  # ?? Sa-Token ????? Redis ??
+
+# mybatis??
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+# jasypt加密的密匙
+jasypt:
+  encryptor:
+    password: Y6M9fAJQdU7jNp5MW
