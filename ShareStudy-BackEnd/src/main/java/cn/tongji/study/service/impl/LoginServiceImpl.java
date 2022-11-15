@@ -18,9 +18,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public Boolean checkLogin(Long userId) {
-        if(usersMapper.selectByPrimaryKey(userId)!=null){
-            return true;
-        }
-        return false;
+        return usersMapper.selectByPrimaryKey(userId) != null;
     }
 }

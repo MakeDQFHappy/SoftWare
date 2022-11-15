@@ -105,6 +105,12 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>3.10.2</version>
         </dependency>
+        <!--        雪花算法主键id生成-->
+        <dependency>
+            <groupId>com.github.yitter</groupId>
+            <artifactId>yitter-idgenerator</artifactId>
+            <version>1.0.6</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
