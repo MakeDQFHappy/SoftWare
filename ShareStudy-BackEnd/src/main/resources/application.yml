@@ -39,6 +39,13 @@ spring:
         max-idle: 16
         min-idle: 8
 
+aliyun:
+  oss:
+    endpoint: oss-cn-shanghai.aliyuncs.com
+    bucketname: tj-software-engineer
+    keyid: LTAI5tG4214DZuezhwbEeiyn
+    keysecret: 5BEC0l3gt4jeHmGbgLPCuIQLkgEkYY
+
 sa-token:
   # ticket ??,??cookie??
   token-name: sa-token

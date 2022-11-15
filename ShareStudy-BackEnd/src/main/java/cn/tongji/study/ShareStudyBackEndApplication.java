@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("cn.tongji.hospital.mapper")
+@MapperScan("cn.tongji.study.mapper")
 public class ShareStudyBackEndApplication {
 
     public static void main(String[] args) {
