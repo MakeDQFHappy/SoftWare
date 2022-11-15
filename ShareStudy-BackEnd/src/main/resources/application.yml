@@ -41,10 +41,10 @@ spring:
 
 aliyun:
   oss:
-    endpoint: oss-cn-shanghai.aliyuncs.com
-    bucketname: tj-software-engineer
-    keyid: LTAI5tG4214DZuezhwbEeiyn
-    keysecret: 5BEC0l3gt4jeHmGbgLPCuIQLkgEkYY
+    endpoint: ENC(tcvrt88lTMBe7lQVabW0lUpBfGxKcb1/+uBgaLiVa1SHosBffrvqmw==)
+    bucketname: ENC(vzSbour8Ve2YqAIGbkaQg7cx/vpYRuVWy3EfGd5Slw8=)
+    keyid: ENC(jsAAh1RKsv2724iR+H6Wf3KFx67NqR4DYaF7cLx6jgb9wOyDwsjL3w==)
+    keysecret: ENC(qI/WHbg5O+eVIqwvsTgQDGhX+OoXmNy/+A2sHwfGnvD8c2EBiWMyIw==)
 
 sa-token:
   # ticket ??,??cookie??

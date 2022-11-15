@@ -27,15 +27,18 @@ class ShareStudyBackEndApplicationTests {
 
     @Test
     public void getPass() {
-        String host = encryptor.encrypt("jdbc:mysql://47.103.94.33:3306/test_db?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC");
-        String username = encryptor.encrypt("daijiawei");
-        String password = encryptor.encrypt("douyu93589");
-        System.out.println("database url: " + host);
-        System.out.println("database username: " + username);
-        System.out.println("database password: " + password);
-        Assert.assertTrue(host.length() > 0);
-        Assert.assertTrue(password.length() > 0);
-        Assert.assertTrue(username.length() > 0);
+        String endpoint = encryptor.encrypt("endpoint");
+        String bucketname = encryptor.encrypt("bucketname");
+        String keyid = encryptor.encrypt("keyid");
+        String keysecret = encryptor.encrypt("keysecret");
+        System.out.println("endpoint: " + endpoint);
+        System.out.println("bucketname: " + bucketname);
+        System.out.println("keyid: " + keyid);
+        System.out.println("keysecret: " + keysecret);
+        Assert.assertTrue(endpoint.length() > 0);
+        Assert.assertTrue(bucketname.length() > 0);
+        Assert.assertTrue(keyid.length() > 0);
+        Assert.assertTrue(keysecret.length() > 0);
     }
 
 }
