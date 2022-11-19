@@ -14,13 +14,17 @@ public class Users implements Serializable {
 
     private String phoneNumber;
 
-    private Short sex;
+    private String sex;
 
     private String academicNumber;
 
     private Short userType;
 
     private Date lastLoginTime;
+
+    private Integer age;
+
+    private String password;
 
     private String userAvatar;
 
@@ -66,11 +70,11 @@ public class Users implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Short getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Short sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
@@ -98,6 +102,22 @@ public class Users implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getUserAvatar() {
         return userAvatar;
     }
@@ -121,6 +141,8 @@ public class Users implements Serializable {
         sb.append(", academicNumber=").append(academicNumber);
         sb.append(", userType=").append(userType);
         sb.append(", lastLoginTime=").append(lastLoginTime);
+        sb.append(", age=").append(age);
+        sb.append(", password=").append(password);
         sb.append(", userAvatar=").append(userAvatar);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

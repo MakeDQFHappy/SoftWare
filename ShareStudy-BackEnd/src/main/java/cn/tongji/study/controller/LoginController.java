@@ -37,4 +37,10 @@ public class LoginController {
             return ResponseEntity.status(402).body("登录失败,请稍后再试");
         }
     }
+
+    @GetMapping("logout")
+    public ResponseEntity<String> userLogout(Long id){
+        StpUtil.logout(id);
+        return ResponseEntity.ok("退出成功");
+    }
 }

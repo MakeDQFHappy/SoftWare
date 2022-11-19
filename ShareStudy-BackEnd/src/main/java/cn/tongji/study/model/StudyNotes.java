@@ -11,6 +11,8 @@ public class StudyNotes implements Serializable {
 
     private String noteContent;
 
+    private String noteHeader;
+
     private static final long serialVersionUID = 1L;
 
     public Long getStudyNoteId() {
@@ -45,6 +47,14 @@ public class StudyNotes implements Serializable {
         this.noteContent = noteContent;
     }
 
+    public String getNoteHeader() {
+        return noteHeader;
+    }
+
+    public void setNoteHeader(String noteHeader) {
+        this.noteHeader = noteHeader;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -55,6 +65,7 @@ public class StudyNotes implements Serializable {
         sb.append(", sharerId=").append(sharerId);
         sb.append(", points=").append(points);
         sb.append(", noteContent=").append(noteContent);
+        sb.append(", noteHeader=").append(noteHeader);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

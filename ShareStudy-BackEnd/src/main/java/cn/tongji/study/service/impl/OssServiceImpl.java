@@ -4,6 +4,8 @@ import cn.tongji.study.service.OssService;
 import cn.tongji.study.util.ConstantPropertiesUtils;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.model.ObjectMetadata;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -15,6 +17,7 @@ import org.joda.time.DateTime;
  * @Author : 王晨
  * @Date : Created in 21:22 2022/11/14
  */
+@Service
 public class OssServiceImpl implements OssService {
     @Override
     public String uploadFile(MultipartFile file) {
@@ -35,15 +38,20 @@ public class OssServiceImpl implements OssService {
 
                 // 1 在文件名称里面添加随机唯一的值
                 String uuid = UUID.randomUUID().toString().replace("-", "");
-                fileName = uuid + fileName;
+                fileName = uuid + "/" + fileName;
 
                 // 2把文件按照日期进行分类
                 // 获取当前日期
                 String datePath = new DateTime().toString("yyyy/MM/dd");
                 fileName = datePath + "/" + fileName;
 
+                //设置oss请求头解决乱码问题
+                ObjectMetadata meta = new ObjectMetadata();
+                meta.setContentType("text/plain;charset=utf-8");
+                meta.setContentDisposition("attachment");
+
                 //调用oss方法实现上传
-                ossClient.putObject(bucketName, fileName, inputStream);
+                ossClient.putObject(bucketName, fileName, inputStream,meta);
 
                 //关闭OSSClient
                 ossClient.shutdown();

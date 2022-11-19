@@ -8,6 +8,7 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.tongji.study.model.StudyNotes">
     <result column="note_content" jdbcType="LONGVARCHAR" property="noteContent" />
+    <result column="note_header" jdbcType="LONGVARCHAR" property="noteHeader" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
     study_note_id, sharer_id, points
   </sql>
   <sql id="Blob_Column_List">
-    note_content
+    note_content, note_header
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="cn.tongji.study.model.StudyNotesExample" resultMap="ResultMapWithBLOBs">
     select
@@ -123,9 +124,9 @@
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.StudyNotes">
     insert into study_notes (study_note_id, sharer_id, points, 
-      note_content)
+      note_content, note_header)
     values (#{studyNoteId,jdbcType=BIGINT}, #{sharerId,jdbcType=BIGINT}, #{points,jdbcType=INTEGER}, 
-      #{noteContent,jdbcType=LONGVARCHAR})
+      #{noteContent,jdbcType=LONGVARCHAR}, #{noteHeader,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.StudyNotes">
     insert into study_notes
@@ -142,6 +143,9 @@
       <if test="noteContent != null">
         note_content,
       </if>
+      <if test="noteHeader != null">
+        note_header,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="studyNoteId != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="noteContent != null">
         #{noteContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="noteHeader != null">
+        #{noteHeader,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +186,9 @@
       <if test="record.noteContent != null">
         note_content = #{record.noteContent,jdbcType=LONGVARCHAR},
       </if>
+      <if test="record.noteHeader != null">
+        note_header = #{record.noteHeader,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -189,7 +199,8 @@
     set study_note_id = #{record.studyNoteId,jdbcType=BIGINT},
       sharer_id = #{record.sharerId,jdbcType=BIGINT},
       points = #{record.points,jdbcType=INTEGER},
-      note_content = #{record.noteContent,jdbcType=LONGVARCHAR}
+      note_content = #{record.noteContent,jdbcType=LONGVARCHAR},
+      note_header = #{record.noteHeader,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -215,6 +226,9 @@
       <if test="noteContent != null">
         note_content = #{noteContent,jdbcType=LONGVARCHAR},
       </if>
+      <if test="noteHeader != null">
+        note_header = #{noteHeader,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where study_note_id = #{studyNoteId,jdbcType=BIGINT}
   </update>
@@ -222,7 +236,8 @@
     update study_notes
     set sharer_id = #{sharerId,jdbcType=BIGINT},
       points = #{points,jdbcType=INTEGER},
-      note_content = #{noteContent,jdbcType=LONGVARCHAR}
+      note_content = #{noteContent,jdbcType=LONGVARCHAR},
+      note_header = #{noteHeader,jdbcType=LONGVARCHAR}
     where study_note_id = #{studyNoteId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.tongji.study.model.StudyNotes">
