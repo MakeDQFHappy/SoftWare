@@ -48,7 +48,7 @@ public class OssServiceImpl implements OssService {
                 //设置oss请求头解决乱码问题
                 ObjectMetadata meta = new ObjectMetadata();
                 meta.setContentType("text/plain;charset=utf-8");
-                meta.setContentDisposition("attachment");
+//                meta.setContentDisposition("attachment");
 
                 //调用oss方法实现上传
                 ossClient.putObject(bucketName, fileName, inputStream,meta);

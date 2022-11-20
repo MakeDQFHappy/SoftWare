@@ -38,6 +38,10 @@ spring:
         max-wait: -1
         max-idle: 16
         min-idle: 8
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 4MB
 
 aliyun:
   oss:

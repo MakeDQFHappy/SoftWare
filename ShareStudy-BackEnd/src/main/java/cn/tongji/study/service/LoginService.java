@@ -1,5 +1,6 @@
 package cn.tongji.study.service;
 
+import cn.tongji.study.dto.LoginDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,5 +9,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface LoginService {
-    Boolean checkLogin(Long userId);
+    LoginDTO checkLogin(Long userId);
 }

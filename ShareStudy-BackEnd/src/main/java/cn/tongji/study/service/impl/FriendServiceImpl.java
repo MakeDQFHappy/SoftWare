@@ -142,20 +142,23 @@ public class FriendServiceImpl implements FriendService {
         }
         List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
         List<SearchUserDTO> searchUserDTOS = new ArrayList<>();
+        List<Long> myFriendsId = getMyFriendsId();
+        Long myId=Long.parseLong((String)StpUtil.getLoginId());
         for (Users user:users) {
-            SearchUserDTO searchUserDTO=new SearchUserDTO();
-            searchUserDTO.setUserName(user.getUserName());
-            searchUserDTO.setSex(user.getSex());
-            searchUserDTO.setAge(user.getAge());
-            searchUserDTO.setUserAvatar(user.getUserAvatar());
-            searchUserDTO.setUserId(user.getUserId());
-            searchUserDTOS.add(searchUserDTO);
+            if(!myFriendsId.contains(user.getUserId())&&!user.getUserId().equals(myId)){
+                SearchUserDTO searchUserDTO=new SearchUserDTO();
+                searchUserDTO.setUserName(user.getUserName());
+                searchUserDTO.setSex(user.getSex());
+                searchUserDTO.setAge(user.getAge());
+                searchUserDTO.setUserAvatar(user.getUserAvatar());
+                searchUserDTO.setUserId(user.getUserId());
+                searchUserDTOS.add(searchUserDTO);
+            }
         }
         return searchUserDTOS;
     }
 
-    @Override
-    public List<MyFriendDTO> getMyFriend() {
+    public List<Long> getMyFriendsId(){
         Long myId= Long.parseLong((String)StpUtil.getLoginId());
         FriendsExample example=new FriendsExample();
         FriendsExample.Criteria criteria=example.createCriteria();
@@ -163,18 +166,35 @@ public class FriendServiceImpl implements FriendService {
         FriendsExample.Criteria criteria1=example.or();
         criteria1.andUserIdEqualTo(myId);
         List<Friends> friends = friendsMapper.selectByExampleWithBLOBs(example);
-        List<MyFriendDTO> myFriendDTOS=new ArrayList<>();
+        List<Long> friendsId=new ArrayList<>();
         for (Friends friend: friends) {
-            Long friendId= Objects.equals(friend.getFriendId(), myId) ?friend.getUserId():friend.getFriendId();
-            Users users = usersMapper.selectByPrimaryKey(friendId);
+            Long friendId= friend.getFriendId().equals(myId)?friend.getUserId():friend.getFriendId();
+            friendsId.add(friendId);
+        }
+        return  friendsId;
+    }
+
+    @Override
+    public List<MyFriendDTO> getMyFriend() {
+        List<MyFriendDTO>myFriendDTOS=new ArrayList<>();
+        Long myId= Long.parseLong((String)StpUtil.getLoginId());
+        FriendsExample example=new FriendsExample();
+        FriendsExample.Criteria criteria=example.createCriteria();
+        criteria.andFriendIdEqualTo(myId);
+        FriendsExample.Criteria criteria1=example.or();
+        criteria1.andUserIdEqualTo(myId);
+        List<Friends> friends = friendsMapper.selectByExampleWithBLOBs(example);
+        for (Friends friend: friends) {
+            Long friendId= friend.getFriendId().equals(myId)?friend.getUserId():friend.getFriendId();
             MyFriendDTO myFriendDTO=new MyFriendDTO();
-            myFriendDTO.setFriendAvatar(users.getUserAvatar());
+            Users users = usersMapper.selectByPrimaryKey(friendId);
             myFriendDTO.setFriendId(friendId);
-            myFriendDTO.setFriendName(users.getUserName());
-            myFriendDTO.setSex(users.getSex());
-            myFriendDTO.setAge(users.getAge());
             myFriendDTO.setLastMessage(friend.getLastMessage());
+            myFriendDTO.setFriendName(users.getUserName());
+            myFriendDTO.setFriendAvatar(users.getUserAvatar());
             myFriendDTO.setFriendKey(friend.getFriendKey());
+            myFriendDTO.setAge(users.getAge());
+            myFriendDTO.setSex(users.getSex());
             myFriendDTOS.add(myFriendDTO);
         }
         return myFriendDTOS;

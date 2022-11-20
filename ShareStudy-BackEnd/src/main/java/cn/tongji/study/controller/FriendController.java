@@ -85,6 +85,9 @@ public class FriendController {
     public ResponseEntity<List<SearchUserDTO>> searchUser(
             @RequestParam(value = "searchInfo") String searchInfo
     ){
+        if(searchInfo.equals("")){
+            return ResponseEntity.status(402).body(null);
+        }
         try {
             return ResponseEntity.ok(friendService.searchUser(searchInfo));
         }catch (Exception e){

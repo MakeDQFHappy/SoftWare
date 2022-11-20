@@ -26,6 +26,7 @@ public interface FriendService {
 
     List<SearchUserDTO> searchUser(String searchInfo);
 
+
     List<MyFriendDTO> getMyFriend();
 
     void removeFriend(Long friendKey);
