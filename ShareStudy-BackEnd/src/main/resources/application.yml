@@ -38,10 +38,15 @@ spring:
         max-wait: -1
         max-idle: 16
         min-idle: 8
+#  设置传输文件最大限制大小
   servlet:
     multipart:
       max-file-size: 5MB
       max-request-size: 4MB
+#  设置时区
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
 
 aliyun:
   oss:

@@ -82,4 +82,18 @@ public class FriendMessageServiceImpl implements FriendMessageService {
         friendPrivateMessages.sort((t1, t2) -> t1.getCreateTime().compareTo(t2.getCreateTime()));
         return friendPrivateMessages;
     }
+
+    @Override
+    public void readMsg(Long senderId) {
+        Long myId=Long.parseLong((String)StpUtil.getLoginId());
+        FriendPrivateMessagesExample example=new FriendPrivateMessagesExample();
+        FriendPrivateMessagesExample.Criteria criteria = example.createCriteria();
+        criteria.andSenderIdEqualTo(senderId);
+        criteria.andReceiverIdEqualTo(myId);
+        List<FriendPrivateMessages> friendPrivateMessages = friendPrivateMessagesMapper.selectByExample(example);
+        for (FriendPrivateMessages message:friendPrivateMessages) {
+            message.setIsRead(true);
+            friendPrivateMessagesMapper.updateByPrimaryKey(message);
+        }
+    }
 }

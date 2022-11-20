@@ -102,5 +102,18 @@ public class FriendMessageController {
         }
     }
 
+    @GetMapping("readMsg")
+    public ResponseEntity<String> readMsg(
+            @RequestParam(value = "senderId") Long senderId
+    ){
+        try {
+            friendMessageService.readMsg(senderId);
+            return ResponseEntity.ok("ok");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("exception");
+        }
+    }
+
 
 }

@@ -15,4 +15,6 @@ public interface FriendMessageService {
     FriendPrivateMessages sendMsg(String message,Long receiverId,Integer type);
 
     List<FriendPrivateMessages> getMsg(Long receiverId);
+
+    void readMsg(Long senderId);
 }

@@ -28,6 +28,10 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Resource
+    FriendPrivateMessagesMapper friendPrivateMessagesMapper;
+
+
+    @Resource
     UsersMapper usersMapper;
 
     @Override
@@ -174,6 +178,15 @@ public class FriendServiceImpl implements FriendService {
         return  friendsId;
     }
 
+    public Integer countNotRead(Long myId,Long senderId){
+        FriendPrivateMessagesExample example=new FriendPrivateMessagesExample();
+        FriendPrivateMessagesExample.Criteria criteria=example.createCriteria();
+        criteria.andSenderIdEqualTo(senderId);
+        criteria.andReceiverIdEqualTo(myId);
+        criteria.andIsReadEqualTo(false);
+        List<FriendPrivateMessages> friendPrivateMessages = friendPrivateMessagesMapper.selectByExample(example);
+        return friendPrivateMessages.size();
+    }
     @Override
     public List<MyFriendDTO> getMyFriend() {
         List<MyFriendDTO>myFriendDTOS=new ArrayList<>();
@@ -195,6 +208,8 @@ public class FriendServiceImpl implements FriendService {
             myFriendDTO.setFriendKey(friend.getFriendKey());
             myFriendDTO.setAge(users.getAge());
             myFriendDTO.setSex(users.getSex());
+            myFriendDTO.setLastChatTime(friend.getLastChatTime());
+            myFriendDTO.setNotReadNum(countNotRead(myId,friendId));
             myFriendDTOS.add(myFriendDTO);
         }
         return myFriendDTOS;
