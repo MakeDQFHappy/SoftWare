@@ -13,8 +13,6 @@ public class Questions implements Serializable {
 
     private String questionHeader;
 
-    private String labels;
-
     private static final long serialVersionUID = 1L;
 
     public Long getQuestionId() {
@@ -57,14 +55,6 @@ public class Questions implements Serializable {
         this.questionHeader = questionHeader;
     }
 
-    public String getLabels() {
-        return labels;
-    }
-
-    public void setLabels(String labels) {
-        this.labels = labels;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -76,7 +66,6 @@ public class Questions implements Serializable {
         sb.append(", rewardPoints=").append(rewardPoints);
         sb.append(", questionContent=").append(questionContent);
         sb.append(", questionHeader=").append(questionHeader);
-        sb.append(", labels=").append(labels);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -9,7 +9,6 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.tongji.study.model.Questions">
     <result column="question_content" jdbcType="LONGVARCHAR" property="questionContent" />
     <result column="question_header" jdbcType="LONGVARCHAR" property="questionHeader" />
-    <result column="labels" jdbcType="LONGVARCHAR" property="labels" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +72,7 @@
     question_id, question_asker_id, reward_points
   </sql>
   <sql id="Blob_Column_List">
-    question_content, question_header, labels
+    question_content, question_header
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="cn.tongji.study.model.QuestionsExample" resultMap="ResultMapWithBLOBs">
     select
@@ -125,11 +124,11 @@
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.Questions">
     insert into questions (question_id, question_asker_id, reward_points, 
-      question_content, question_header, 
-      labels)
+      question_content, question_header
+      )
     values (#{questionId,jdbcType=BIGINT}, #{questionAskerId,jdbcType=BIGINT}, #{rewardPoints,jdbcType=INTEGER}, 
-      #{questionContent,jdbcType=LONGVARCHAR}, #{questionHeader,jdbcType=LONGVARCHAR}, 
-      #{labels,jdbcType=LONGVARCHAR})
+      #{questionContent,jdbcType=LONGVARCHAR}, #{questionHeader,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.Questions">
     insert into questions
@@ -149,9 +148,6 @@
       <if test="questionHeader != null">
         question_header,
       </if>
-      <if test="labels != null">
-        labels,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="questionId != null">
@@ -168,9 +164,6 @@
       </if>
       <if test="questionHeader != null">
         #{questionHeader,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="labels != null">
-        #{labels,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,9 +191,6 @@
       <if test="record.questionHeader != null">
         question_header = #{record.questionHeader,jdbcType=LONGVARCHAR},
       </if>
-      <if test="record.labels != null">
-        labels = #{record.labels,jdbcType=LONGVARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,8 +202,7 @@
       question_asker_id = #{record.questionAskerId,jdbcType=BIGINT},
       reward_points = #{record.rewardPoints,jdbcType=INTEGER},
       question_content = #{record.questionContent,jdbcType=LONGVARCHAR},
-      question_header = #{record.questionHeader,jdbcType=LONGVARCHAR},
-      labels = #{record.labels,jdbcType=LONGVARCHAR}
+      question_header = #{record.questionHeader,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,9 +231,6 @@
       <if test="questionHeader != null">
         question_header = #{questionHeader,jdbcType=LONGVARCHAR},
       </if>
-      <if test="labels != null">
-        labels = #{labels,jdbcType=LONGVARCHAR},
-      </if>
     </set>
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
@@ -253,8 +239,7 @@
     set question_asker_id = #{questionAskerId,jdbcType=BIGINT},
       reward_points = #{rewardPoints,jdbcType=INTEGER},
       question_content = #{questionContent,jdbcType=LONGVARCHAR},
-      question_header = #{questionHeader,jdbcType=LONGVARCHAR},
-      labels = #{labels,jdbcType=LONGVARCHAR}
+      question_header = #{questionHeader,jdbcType=LONGVARCHAR}
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.tongji.study.model.Questions">
