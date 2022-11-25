@@ -1,7 +1,9 @@
 package cn.tongji.study.controller;
 
+import cn.tongji.study.dto.AnswerDTO;
 import cn.tongji.study.dto.QuestionDTO;
 import cn.tongji.study.mapper.QuestionsMapper;
+import cn.tongji.study.model.Answers;
 import cn.tongji.study.model.FriendPrivateMessages;
 import cn.tongji.study.model.Questions;
 import cn.tongji.study.service.OssService;
@@ -30,10 +32,37 @@ public class QAController {
     }
     @PostMapping("askQuestion")
     public ResponseEntity<Questions>askQuestion(
-            @RequestBody String content
+            @RequestBody String content,
+            @RequestParam(value = "header")String header,
+            @RequestParam(value = "rewardpoints") Integer rewardpoints
     ){
         try {
-            return ResponseEntity.ok(QAservice.askQuestion(content));
+            return ResponseEntity.ok(QAservice.askQuestion(content,header,rewardpoints));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @PostMapping("answerQuestion")
+    public  ResponseEntity<Answers>answerquestion(
+            @RequestBody String content,
+            @RequestParam(value = "questionid") Long questionid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.answerQuestion(questionid,content));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getAnswer")
+    public  ResponseEntity<List<AnswerDTO>>getAnswer(
+            @RequestParam(value = "questionid") Long questionid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.getAnswer(questionid));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);
