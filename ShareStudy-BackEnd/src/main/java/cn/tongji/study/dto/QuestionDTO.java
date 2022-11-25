@@ -9,5 +9,5 @@ public class QuestionDTO {
     String questioncontent;
     Integer rewardpoints;
     String questionheader;
-    String labels;
+    Boolean hasanswerer;
 }
