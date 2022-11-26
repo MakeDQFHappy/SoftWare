@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface LoginService {
-    LoginDTO checkLogin(Long userId);
+    LoginDTO academicLogin(String academicNum,String password);
 }

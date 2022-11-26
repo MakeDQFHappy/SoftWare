@@ -22,13 +22,19 @@ public class LoginController {
     @Resource
     LoginService loginService;
 
-    @GetMapping("user")
-    public ResponseEntity<LoginDTO> userLogin(
-            @RequestParam(value = "userId") String userId
+    @GetMapping("academic")
+    public ResponseEntity<LoginDTO> userAcademicLogin(
+            @RequestParam(value = "academicNum") String academicNum,
+            @RequestParam(value = "password") String password
     ){
         try {
-            Long id=Long.parseLong(userId);
-            return ResponseEntity.ok(loginService.checkLogin(id));
+            LoginDTO loginDTO = loginService.academicLogin(academicNum, password);
+            if(loginDTO!=null){
+                return ResponseEntity.ok(loginDTO);
+            }
+            else {
+                return ResponseEntity.status(403).body(null);
+            }
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);
@@ -36,7 +42,9 @@ public class LoginController {
     }
 
     @GetMapping("logout")
-    public ResponseEntity<String> userLogout(Long id){
+    public ResponseEntity<String> userLogout(
+            @RequestParam(value = "id") Long id
+    ){
         StpUtil.logout(id);
         return ResponseEntity.ok("退出成功");
     }

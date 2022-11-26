@@ -72,4 +72,25 @@ public class OssServiceImpl implements OssService {
         }
         return null;
     }
+
+    @Override
+    public Boolean deleteFile(String fileUrl) {
+        String endPoint = ConstantPropertiesUtils.END_POINT;
+        String accessKeyId = ConstantPropertiesUtils.ACCESS_KEY_ID;
+        String accessKeySecret = ConstantPropertiesUtils.ACCESS_KEY_SECRET;
+        String bucketName = ConstantPropertiesUtils.BUCKET_NAME;
+
+        try {
+            //判断oss实例是否存在：如果不存在则创建，如果存在则获取
+            OSS ossClient = new OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret);
+
+            ossClient.deleteObject(bucketName,fileUrl);
+
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
