@@ -10,4 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public interface OssService {
     String uploadFile(MultipartFile file);
+
+    Boolean deleteFile(String fileUrl);
 }

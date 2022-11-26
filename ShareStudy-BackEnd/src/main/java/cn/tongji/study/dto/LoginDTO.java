@@ -11,4 +11,9 @@ public class LoginDTO {
     Long userId;
     String userAvatar;
     String userToken;
+    String userName;
+    String sex;
+    Integer age;
+    Integer bonusPoints;
+    Short userType;
 }

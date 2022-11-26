@@ -2,10 +2,7 @@ package cn.tongji.study.controller;
 
 import cn.tongji.study.service.RegisterService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,15 +16,24 @@ public class RegisterController {
     @Resource
     RegisterService registerService;
 
-    @PostMapping("user")
-    public ResponseEntity<String> userRegister(
-            @RequestParam(value = "t") Long t
+    @GetMapping("varifyAcademic")
+    public ResponseEntity<String> varifyAcademic(
+            @RequestParam(value = "academicNumber") String academicNumber,
+            @RequestParam(value = "name") String name
     ){
         try {
-            return ResponseEntity.ok("测试注册成功");
+            if(registerService.academicExist(academicNumber)){
+                return ResponseEntity.status(403).body("学号已存在");
+            }
+            if(!registerService.verifyAcademicNumber(academicNumber,name)){
+                return ResponseEntity.status(405).body("学号验证未通过");
+            }
+            return ResponseEntity.ok("学号验证通过");
         }catch (Exception e){
             e.printStackTrace();
-            return ResponseEntity.status(201).body("测试注册失败");
+            return ResponseEntity.status(404).body("学号验证出错");
         }
     }
+
+
 }
