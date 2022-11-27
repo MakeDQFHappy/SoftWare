@@ -9,6 +9,7 @@ import cn.tongji.study.mapper.QuestionsMapper;
 import cn.tongji.study.mapper.UsersMapper;
 import cn.tongji.study.model.QuestionsExample;
 import cn.tongji.study.service.QAService;
+import com.github.pagehelper.PageHelper;
 import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.stereotype.Service;
 
@@ -85,6 +86,7 @@ public class QAServiceImpl implements QAService {
         AnswersExample example=new AnswersExample();
         AnswersExample.Criteria criteria= example.createCriteria();
         criteria.andQuestionIdEqualTo(questionid);
+        PageHelper.startPage(0,1);
         List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
         for(Answers answer:answers)
         {
