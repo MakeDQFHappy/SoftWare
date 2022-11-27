@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface RegisterService {
-
+    Boolean academicExist(String academicNumber);
+    Boolean verifyAcademicNumber(String academicNumber,String name);
 }
