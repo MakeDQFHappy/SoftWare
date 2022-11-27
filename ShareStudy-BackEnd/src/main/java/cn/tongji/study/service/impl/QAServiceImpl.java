@@ -9,12 +9,17 @@ import cn.tongji.study.mapper.QuestionsMapper;
 import cn.tongji.study.mapper.UsersMapper;
 import cn.tongji.study.model.QuestionsExample;
 import cn.tongji.study.service.QAService;
+import com.github.pagehelper.PageHelper;
 import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
 @Service
 public class QAServiceImpl implements QAService {
     @Resource
@@ -62,6 +67,11 @@ public class QAServiceImpl implements QAService {
         questions.setQuestionContent(content);
         Long myId=Long.parseLong((String) StpUtil.getLoginId());
         questions.setQuestionAskerId(myId);
+        TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+        TimeZone.setDefault(time);
+        Date date = new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
+        questions.setCreateTime(timestamp);
         questionsMapper.insert(questions);
         return questions;
     }
@@ -85,6 +95,7 @@ public class QAServiceImpl implements QAService {
         AnswersExample example=new AnswersExample();
         AnswersExample.Criteria criteria= example.createCriteria();
         criteria.andQuestionIdEqualTo(questionid);
+        PageHelper.startPage(0,1);
         List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
         for(Answers answer:answers)
         {
