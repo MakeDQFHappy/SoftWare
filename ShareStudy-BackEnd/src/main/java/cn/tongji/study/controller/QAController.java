@@ -30,6 +30,15 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
+    @GetMapping("getMyAnswer")
+    public ResponseEntity<List<QuestionDTO>> getMyAnswer(){
+        try {
+            return ResponseEntity.ok(QAservice.getMyAnswer());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @PostMapping("askQuestion")
     public ResponseEntity<Questions>askQuestion(
             @RequestBody String content,
@@ -63,6 +72,17 @@ public class QAController {
     {
         try {
             return ResponseEntity.ok(QAservice.getAnswer(questionid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("searchByQuestion")
+    public ResponseEntity<List<QuestionDTO>> searchByQuestion(
+            @RequestParam(value = "keyword")String keyword
+    ){
+        try {
+            return ResponseEntity.ok(QAservice.searchByQuestion(keyword));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

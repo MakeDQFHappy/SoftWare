@@ -46,6 +46,7 @@ public class QAServiceImpl implements QAService {
             myQuestionDTO.setQuestionheader(question.getQuestionHeader());
             myQuestionDTO.setQuestioncontent(question.getQuestionContent());
             myQuestionDTO.setQuestionaskerid(myId);
+            myQuestionDTO.setCreatetime(question.getCreateTime());
             AnswersExample example1=new AnswersExample();
             AnswersExample.Criteria criteria1=example1.createCriteria();
             criteria1.andQuestionIdEqualTo(question.getQuestionId());
@@ -55,6 +56,66 @@ public class QAServiceImpl implements QAService {
             else
                 myQuestionDTO.setHasanswerer(true);
             myQuestionDTOS.add(myQuestionDTO);
+        }
+        return myQuestionDTOS;
+    }
+    public List<QuestionDTO> searchByQuestion(String content)
+    {
+        List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
+        //获取个人ID
+        Long myId= Long.parseLong((String) StpUtil.getLoginId());
+        QuestionsExample example=new QuestionsExample();
+        QuestionsExample.Criteria criteria= example.createCriteria();
+        List<Questions> questions=questionsMapper.fuzzyQuery(content);
+        for(Questions question: questions)
+        {
+            QuestionDTO myQuestionDTO=new QuestionDTO();
+            myQuestionDTO.setQuestionid(question.getQuestionId());
+            myQuestionDTO.setRewardpoints(question.getRewardPoints());
+            myQuestionDTO.setQuestionheader(question.getQuestionHeader());
+            myQuestionDTO.setQuestioncontent(question.getQuestionContent());
+            myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
+            myQuestionDTO.setCreatetime(question.getCreateTime());
+            AnswersExample example1=new AnswersExample();
+            AnswersExample.Criteria criteria1=example1.createCriteria();
+            criteria1.andQuestionIdEqualTo(question.getQuestionId());
+            List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example1);
+            if(answers.isEmpty())
+                myQuestionDTO.setHasanswerer(false);
+            else
+                myQuestionDTO.setHasanswerer(true);
+            myQuestionDTOS.add(myQuestionDTO);
+        }
+        return myQuestionDTOS;
+    }
+    @Override
+    public List<QuestionDTO> getMyAnswer()
+    {
+        List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
+        //获取个人ID
+        Long myId= Long.parseLong((String) StpUtil.getLoginId());
+        AnswersExample example=new AnswersExample();
+        AnswersExample.Criteria criteria=example.createCriteria();
+        criteria.andAnswererIdEqualTo(myId);
+        List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
+        for(Answers answer:answers)
+        {
+            QuestionsExample example1=new QuestionsExample();
+            QuestionsExample.Criteria criteria1= example1.createCriteria();
+            criteria1.andQuestionIdEqualTo(answer.getQuestionId());
+            List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example1);
+            for(Questions question: questions) {
+                QuestionDTO myQuestionDTO = new QuestionDTO();
+                myQuestionDTO.setQuestionid(question.getQuestionId());
+                myQuestionDTO.setRewardpoints(question.getRewardPoints());
+                myQuestionDTO.setQuestionheader(question.getQuestionHeader());
+                myQuestionDTO.setQuestioncontent(question.getQuestionContent());
+                myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
+                myQuestionDTO.setCreatetime(question.getCreateTime());
+                myQuestionDTO.setHasanswerer(true);
+                if(!myQuestionDTOS.contains(myQuestionDTO))
+                myQuestionDTOS.add(myQuestionDTO);
+            }
         }
         return myQuestionDTOS;
     }
@@ -95,7 +156,7 @@ public class QAServiceImpl implements QAService {
         AnswersExample example=new AnswersExample();
         AnswersExample.Criteria criteria= example.createCriteria();
         criteria.andQuestionIdEqualTo(questionid);
-        PageHelper.startPage(0,1);
+        PageHelper.startPage(1,1);
         List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
         for(Answers answer:answers)
         {

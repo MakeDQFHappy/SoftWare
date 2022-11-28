@@ -1,6 +1,7 @@
 package cn.tongji.study.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Answers implements Serializable {
     private Long answerId;
@@ -10,6 +11,8 @@ public class Answers implements Serializable {
     private Long questionId;
 
     private Boolean adopted;
+
+    private Date createTime;
 
     private String answerContent;
 
@@ -47,6 +50,14 @@ public class Answers implements Serializable {
         this.adopted = adopted;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
     public String getAnswerContent() {
         return answerContent;
     }
@@ -65,6 +76,7 @@ public class Answers implements Serializable {
         sb.append(", answererId=").append(answererId);
         sb.append(", questionId=").append(questionId);
         sb.append(", adopted=").append(adopted);
+        sb.append(", createTime=").append(createTime);
         sb.append(", answerContent=").append(answerContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

@@ -9,8 +9,9 @@ import java.util.List;
 
 public interface QAService {
     List<QuestionDTO> getMyQuestion();
+    List<QuestionDTO> searchByQuestion(String content);
+    List<QuestionDTO> getMyAnswer();
     Questions askQuestion(String content,String header,Integer rewardpoints);
     List<AnswerDTO>getAnswer(Long questionid);
     Answers answerQuestion(Long questionid,String content);
-
 }
