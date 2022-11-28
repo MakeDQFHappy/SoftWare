@@ -6,6 +6,7 @@
     <result column="answerer_id" jdbcType="BIGINT" property="answererId" />
     <result column="question_id" jdbcType="BIGINT" property="questionId" />
     <result column="adopted" jdbcType="BIT" property="adopted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.tongji.study.model.Answers">
     <result column="answer_content" jdbcType="LONGVARCHAR" property="answerContent" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    answer_id, answerer_id, question_id, adopted
+    answer_id, answerer_id, question_id, adopted, create_time
   </sql>
   <sql id="Blob_Column_List">
     answer_content
@@ -124,9 +125,11 @@
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.Answers">
     insert into answers (answer_id, answerer_id, question_id, 
-      adopted, answer_content)
+      adopted, create_time, answer_content
+      )
     values (#{answerId,jdbcType=BIGINT}, #{answererId,jdbcType=BIGINT}, #{questionId,jdbcType=BIGINT}, 
-      #{adopted,jdbcType=BIT}, #{answerContent,jdbcType=LONGVARCHAR})
+      #{adopted,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{answerContent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.Answers">
     insert into answers
@@ -142,6 +145,9 @@
       </if>
       <if test="adopted != null">
         adopted,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="answerContent != null">
         answer_content,
@@ -159,6 +165,9 @@
       </if>
       <if test="adopted != null">
         #{adopted,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="answerContent != null">
         #{answerContent,jdbcType=LONGVARCHAR},
@@ -186,6 +195,9 @@
       <if test="record.adopted != null">
         adopted = #{record.adopted,jdbcType=BIT},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.answerContent != null">
         answer_content = #{record.answerContent,jdbcType=LONGVARCHAR},
       </if>
@@ -200,6 +212,7 @@
       answerer_id = #{record.answererId,jdbcType=BIGINT},
       question_id = #{record.questionId,jdbcType=BIGINT},
       adopted = #{record.adopted,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       answer_content = #{record.answerContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,7 +223,8 @@
     set answer_id = #{record.answerId,jdbcType=BIGINT},
       answerer_id = #{record.answererId,jdbcType=BIGINT},
       question_id = #{record.questionId,jdbcType=BIGINT},
-      adopted = #{record.adopted,jdbcType=BIT}
+      adopted = #{record.adopted,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +241,9 @@
       <if test="adopted != null">
         adopted = #{adopted,jdbcType=BIT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="answerContent != null">
         answer_content = #{answerContent,jdbcType=LONGVARCHAR},
       </if>
@@ -238,6 +255,7 @@
     set answerer_id = #{answererId,jdbcType=BIGINT},
       question_id = #{questionId,jdbcType=BIGINT},
       adopted = #{adopted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       answer_content = #{answerContent,jdbcType=LONGVARCHAR}
     where answer_id = #{answerId,jdbcType=BIGINT}
   </update>
@@ -245,7 +263,8 @@
     update answers
     set answerer_id = #{answererId,jdbcType=BIGINT},
       question_id = #{questionId,jdbcType=BIGINT},
-      adopted = #{adopted,jdbcType=BIT}
+      adopted = #{adopted,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where answer_id = #{answerId,jdbcType=BIGINT}
   </update>
 </mapper>

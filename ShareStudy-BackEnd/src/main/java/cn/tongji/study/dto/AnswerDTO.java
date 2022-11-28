@@ -2,6 +2,8 @@ package cn.tongji.study.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class AnswerDTO {
     Long answerid;
@@ -11,4 +13,5 @@ public class AnswerDTO {
     Boolean adopted;
     String answerername;
     String answereravatar;
+    Date createtime;
 }

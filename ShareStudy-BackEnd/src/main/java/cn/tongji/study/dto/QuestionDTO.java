@@ -2,6 +2,8 @@ package cn.tongji.study.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class QuestionDTO {
     Long questionid;
@@ -10,4 +12,5 @@ public class QuestionDTO {
     Integer rewardpoints;
     String questionheader;
     Boolean hasanswerer;
+    Date createtime;
 }
