@@ -1,10 +1,12 @@
 package cn.tongji.study.controller;
 
 import cn.tongji.study.dto.AnswerDTO;
+import cn.tongji.study.dto.LikeDTO;
 import cn.tongji.study.dto.QuestionDTO;
 import cn.tongji.study.mapper.QuestionsMapper;
 import cn.tongji.study.model.Answers;
 import cn.tongji.study.model.FriendPrivateMessages;
+import cn.tongji.study.model.Likes;
 import cn.tongji.study.model.Questions;
 import cn.tongji.study.service.OssService;
 import cn.tongji.study.service.QAService;
@@ -60,6 +62,30 @@ public class QAController {
     {
         try {
             return ResponseEntity.ok(QAservice.answerQuestion(questionid,content));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @PostMapping("clickLike")
+    public  ResponseEntity<List<LikeDTO>>clickLike(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.clickLike(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @PostMapping("undoLike")
+    public  ResponseEntity<List<LikeDTO>>undoLike(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.undoLike(answerid));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

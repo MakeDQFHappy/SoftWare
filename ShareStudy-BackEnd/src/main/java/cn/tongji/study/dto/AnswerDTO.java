@@ -14,4 +14,6 @@ public class AnswerDTO {
     String answerername;
     String answereravatar;
     Date createtime;
+    Integer likenum;
+    Boolean isliked=false;
 }
