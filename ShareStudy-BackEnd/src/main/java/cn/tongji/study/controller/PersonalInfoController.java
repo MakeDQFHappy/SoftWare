@@ -35,7 +35,17 @@ public class PersonalInfoController {
         }catch (Exception e){
             return ResponseEntity.status(401).body("更换头像失败");
         }
+    }
 
-
+    @PostMapping("updateBonusPoints")
+    public ResponseEntity<Integer>updateBonusPoints(
+            @RequestParam("changeNum") Integer changeNum
+    ){
+        try {
+            return ResponseEntity.ok(personalInfoService.updateBonusPoints(changeNum));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
     }
 }
