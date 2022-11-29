@@ -9,4 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface PersonalInfoService {
     void updateAvatar(String avatarUrl);
+
+    Integer updateBonusPoints(Integer updateNum);
 }
