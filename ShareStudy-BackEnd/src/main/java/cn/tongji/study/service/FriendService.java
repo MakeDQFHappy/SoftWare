@@ -31,4 +31,8 @@ public interface FriendService {
 
     void removeFriend(Long friendKey);
 
+    Boolean checkFriend(Long friendId);
+
+    void deleteRequest(Long applicationId);
+
 }

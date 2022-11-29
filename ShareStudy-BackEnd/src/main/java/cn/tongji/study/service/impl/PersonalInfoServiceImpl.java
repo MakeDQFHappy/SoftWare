@@ -26,4 +26,14 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
         users.setUserAvatar(avatarUrl);
         usersMapper.updateByPrimaryKeyWithBLOBs(users);
     }
+
+    @Override
+    public Integer updateBonusPoints(Integer updateNum) {
+        Long myId=Long.parseLong((String)StpUtil.getLoginId());
+        Users users = usersMapper.selectByPrimaryKey(myId);
+        Integer res=users.getBonusPoints()+updateNum;
+        users.setBonusPoints(res);
+        usersMapper.updateByPrimaryKey(users);
+        return res;
+    }
 }

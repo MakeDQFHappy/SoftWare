@@ -27,6 +27,9 @@ public class FriendController {
             @RequestParam(value = "introduction") String introduction
     ){
         try {
+            if(friendService.checkFriend(receiverId)){
+                return ResponseEntity.status(301).body("已经是好友");
+            }
             friendService.sendFriendRequest(introduction,receiverId);
             return ResponseEntity.ok("发送成功");
         }catch (Exception e){
@@ -42,6 +45,19 @@ public class FriendController {
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);
+        }
+    }
+
+    @PostMapping("deleteReq")
+    public ResponseEntity<String> deleteReq(
+            @RequestParam(value = "applicationId") Long applicationId
+    ){
+        try {
+            friendService.deleteRequest(applicationId);
+            return ResponseEntity.ok("ok");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("exception");
         }
     }
 

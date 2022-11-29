@@ -16,4 +16,5 @@ public class LoginDTO {
     Integer age;
     Integer bonusPoints;
     Short userType;
+    Boolean isFirst;
 }

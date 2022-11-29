@@ -6,10 +6,15 @@ import cn.tongji.study.mapper.UsersMapper;
 import cn.tongji.study.model.Users;
 import cn.tongji.study.model.UsersExample;
 import cn.tongji.study.service.LoginService;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * @Author : 王晨
@@ -32,7 +37,19 @@ public class LoginServiceImpl implements LoginService {
             return null;
         }
         StpUtil.login(users.get(0).getUserId());
+        TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+        TimeZone.setDefault(time);
+        Date date = new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
         LoginDTO loginDTO=new LoginDTO();
+        if(users.get(0).getLastLoginTime()==null||checkFirst(timestamp,users.get(0).getLastLoginTime())){
+            loginDTO.setIsFirst(true);
+        }
+        else{
+            loginDTO.setIsFirst(false);
+        }
+        users.get(0).setLastLoginTime(timestamp);
+        usersMapper.updateByPrimaryKey(users.get(0));
         loginDTO.setUserAvatar(users.get(0).getUserAvatar());
         loginDTO.setUserId(users.get(0).getUserId());
         loginDTO.setUserToken(StpUtil.getTokenValue());
@@ -42,5 +59,12 @@ public class LoginServiceImpl implements LoginService {
         loginDTO.setUserName(users.get(0).getUserName());
         loginDTO.setUserType(users.get(0).getUserType());
         return loginDTO;
+    }
+
+    public Boolean checkFirst(Timestamp nowDate, Date lastDate){
+        SimpleDateFormat sdfLogin = new SimpleDateFormat("yyyy-MM-dd");
+        String now = sdfLogin.format(nowDate);
+        String last = sdfLogin.format(lastDate);
+        return !now.equals(last);
     }
 }

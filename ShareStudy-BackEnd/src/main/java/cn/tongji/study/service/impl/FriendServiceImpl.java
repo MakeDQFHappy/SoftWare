@@ -125,13 +125,14 @@ public class FriendServiceImpl implements FriendService {
         friend.setFriendId(friendApplication.getReceiverId());
         friend.setFriendKey(YitIdHelper.nextId());
         friendsMapper.insert(friend);
-        friendApplicationsMapper.deleteByPrimaryKey(applicationId);
+        friendApplication.setStatus((short)1);
+        friendApplicationsMapper.updateByPrimaryKey(friendApplication);
     }
 
     @Override
     public void rejectFriendRequest(Long applicationId) {
         FriendApplications friendApplication=friendApplicationsMapper.selectByPrimaryKey(applicationId);
-        friendApplication.setStatus((short)1);
+        friendApplication.setStatus((short)2);
         friendApplicationsMapper.updateByPrimaryKey(friendApplication);
     }
 
@@ -218,5 +219,16 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public void removeFriend(Long friendKey) {
         friendsMapper.deleteByPrimaryKey(friendKey);
+    }
+
+    @Override
+    public Boolean checkFriend(Long friendId) {
+        List<Long> myFriendsId = getMyFriendsId();
+        return myFriendsId.contains(friendId);
+    }
+
+    @Override
+    public void deleteRequest(Long applicationId) {
+        friendApplicationsMapper.deleteByPrimaryKey(applicationId);
     }
 }
