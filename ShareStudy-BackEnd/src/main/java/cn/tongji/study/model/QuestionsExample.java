@@ -285,6 +285,76 @@ public class QuestionsExample {
             return (Criteria) this;
         }
 
+        public Criteria andQuestionHeaderIsNull() {
+            addCriterion("question_header is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderIsNotNull() {
+            addCriterion("question_header is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderEqualTo(String value) {
+            addCriterion("question_header =", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderNotEqualTo(String value) {
+            addCriterion("question_header <>", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderGreaterThan(String value) {
+            addCriterion("question_header >", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderGreaterThanOrEqualTo(String value) {
+            addCriterion("question_header >=", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderLessThan(String value) {
+            addCriterion("question_header <", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderLessThanOrEqualTo(String value) {
+            addCriterion("question_header <=", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderLike(String value) {
+            addCriterion("question_header like", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderNotLike(String value) {
+            addCriterion("question_header not like", value, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderIn(List<String> values) {
+            addCriterion("question_header in", values, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderNotIn(List<String> values) {
+            addCriterion("question_header not in", values, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderBetween(String value1, String value2) {
+            addCriterion("question_header between", value1, value2, "questionHeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuestionHeaderNotBetween(String value1, String value2) {
+            addCriterion("question_header not between", value1, value2, "questionHeader");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;
@@ -342,6 +412,126 @@ public class QuestionsExample {
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
             addCriterion("create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerIsNull() {
+            addCriterion("has_adopted_answer is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerIsNotNull() {
+            addCriterion("has_adopted_answer is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerEqualTo(Boolean value) {
+            addCriterion("has_adopted_answer =", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerNotEqualTo(Boolean value) {
+            addCriterion("has_adopted_answer <>", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerGreaterThan(Boolean value) {
+            addCriterion("has_adopted_answer >", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_adopted_answer >=", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerLessThan(Boolean value) {
+            addCriterion("has_adopted_answer <", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_adopted_answer <=", value, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerIn(List<Boolean> values) {
+            addCriterion("has_adopted_answer in", values, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerNotIn(List<Boolean> values) {
+            addCriterion("has_adopted_answer not in", values, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_adopted_answer between", value1, value2, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAdoptedAnswerNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_adopted_answer not between", value1, value2, "hasAdoptedAnswer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererIsNull() {
+            addCriterion("has_answerer is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererIsNotNull() {
+            addCriterion("has_answerer is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererEqualTo(Boolean value) {
+            addCriterion("has_answerer =", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererNotEqualTo(Boolean value) {
+            addCriterion("has_answerer <>", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererGreaterThan(Boolean value) {
+            addCriterion("has_answerer >", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_answerer >=", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererLessThan(Boolean value) {
+            addCriterion("has_answerer <", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_answerer <=", value, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererIn(List<Boolean> values) {
+            addCriterion("has_answerer in", values, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererNotIn(List<Boolean> values) {
+            addCriterion("has_answerer not in", values, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_answerer between", value1, value2, "hasAnswerer");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasAnswererNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_answerer not between", value1, value2, "hasAnswerer");
             return (Criteria) this;
         }
     }

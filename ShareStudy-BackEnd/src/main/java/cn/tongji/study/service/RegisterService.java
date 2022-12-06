@@ -1,5 +1,6 @@
 package cn.tongji.study.service;
 
+import cn.tongji.study.dto.RegisterDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,5 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RegisterService {
     Boolean academicExist(String academicNumber);
+    String sendEmail(String toEmail);
     Boolean verifyAcademicNumber(String academicNumber,String name);
+    void insertUser(RegisterDTO registerDTO);
+
 }

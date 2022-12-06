@@ -10,11 +10,15 @@ public class Questions implements Serializable {
 
     private Integer rewardPoints;
 
+    private String questionHeader;
+
     private Date createTime;
 
-    private String questionContent;
+    private Boolean hasAdoptedAnswer;
 
-    private String questionHeader;
+    private Boolean hasAnswerer;
+
+    private String questionContent;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,6 +46,14 @@ public class Questions implements Serializable {
         this.rewardPoints = rewardPoints;
     }
 
+    public String getQuestionHeader() {
+        return questionHeader;
+    }
+
+    public void setQuestionHeader(String questionHeader) {
+        this.questionHeader = questionHeader;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -50,20 +62,28 @@ public class Questions implements Serializable {
         this.createTime = createTime;
     }
 
+    public Boolean getHasAdoptedAnswer() {
+        return hasAdoptedAnswer;
+    }
+
+    public void setHasAdoptedAnswer(Boolean hasAdoptedAnswer) {
+        this.hasAdoptedAnswer = hasAdoptedAnswer;
+    }
+
+    public Boolean getHasAnswerer() {
+        return hasAnswerer;
+    }
+
+    public void setHasAnswerer(Boolean hasAnswerer) {
+        this.hasAnswerer = hasAnswerer;
+    }
+
     public String getQuestionContent() {
         return questionContent;
     }
 
     public void setQuestionContent(String questionContent) {
         this.questionContent = questionContent;
-    }
-
-    public String getQuestionHeader() {
-        return questionHeader;
-    }
-
-    public void setQuestionHeader(String questionHeader) {
-        this.questionHeader = questionHeader;
     }
 
     @Override
@@ -75,9 +95,11 @@ public class Questions implements Serializable {
         sb.append(", questionId=").append(questionId);
         sb.append(", questionAskerId=").append(questionAskerId);
         sb.append(", rewardPoints=").append(rewardPoints);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", questionContent=").append(questionContent);
         sb.append(", questionHeader=").append(questionHeader);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", hasAdoptedAnswer=").append(hasAdoptedAnswer);
+        sb.append(", hasAnswerer=").append(hasAnswerer);
+        sb.append(", questionContent=").append(questionContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

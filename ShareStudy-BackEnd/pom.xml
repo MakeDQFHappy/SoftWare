@@ -149,6 +149,12 @@
             <artifactId>joda-time</artifactId>
             <version>2.3</version>
         </dependency>
+
+<!--        qq邮箱依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

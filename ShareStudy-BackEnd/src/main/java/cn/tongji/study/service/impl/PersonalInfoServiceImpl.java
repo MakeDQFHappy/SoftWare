@@ -1,6 +1,7 @@
 package cn.tongji.study.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.tongji.study.dto.UserInfoDTO;
 import cn.tongji.study.mapper.UsersMapper;
 import cn.tongji.study.model.Users;
 import cn.tongji.study.service.PersonalInfoService;
@@ -35,5 +36,17 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
         users.setBonusPoints(res);
         usersMapper.updateByPrimaryKey(users);
         return res;
+    }
+
+    @Override
+    public UserInfoDTO getUserInfo(Long userId) {
+        Users users = usersMapper.selectByPrimaryKey(userId);
+        UserInfoDTO userInfoDTO=new UserInfoDTO();
+        userInfoDTO.setUserName(users.getUserName());
+        userInfoDTO.setAge(users.getBirthYear());
+        userInfoDTO.setSex(users.getSex());
+        userInfoDTO.setUserAvatar(users.getUserAvatar());
+        userInfoDTO.setBonusPoints(users.getBonusPoints());
+        return userInfoDTO;
     }
 }

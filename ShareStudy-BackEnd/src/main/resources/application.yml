@@ -47,6 +47,17 @@ spring:
   jackson:
     time-zone: Asia/Shanghai
     date-format: yyyy-MM-dd HH:mm:ss
+#  设置邮箱配置
+  mail:
+    host: smtp.qq.com
+    username: 310499328@qq.com
+    password: vxsflmvxcjawcahi
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+    default-encoding: utf-8
 
 aliyun:
   oss:
