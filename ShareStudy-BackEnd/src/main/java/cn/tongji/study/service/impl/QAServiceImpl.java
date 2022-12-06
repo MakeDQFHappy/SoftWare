@@ -2,6 +2,8 @@ package cn.tongji.study.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.tongji.study.dto.AnswerDTO;
+import cn.tongji.study.dto.LikeDTO;
+import cn.tongji.study.mapper.LikesMapper;
 import cn.tongji.study.model.*;
 import cn.tongji.study.dto.QuestionDTO;
 import cn.tongji.study.mapper.AnswersMapper;
@@ -14,6 +16,7 @@ import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.net.http.WebSocket;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +29,8 @@ public class QAServiceImpl implements QAService {
     UsersMapper usersMapper;
     @Resource
     QuestionsMapper questionsMapper;
+    @Resource
+    LikesMapper likesMapper;
     @Resource
     AnswersMapper answersMapper;
     @Override
@@ -58,6 +63,23 @@ public class QAServiceImpl implements QAService {
             myQuestionDTOS.add(myQuestionDTO);
         }
         return myQuestionDTOS;
+    }
+    public List<LikeDTO> getAllAnswerLikes(Long answerid)
+    {
+        List<LikeDTO> likeDTOS=new ArrayList<>();
+        LikesExample example=new LikesExample();
+        LikesExample.Criteria criteria=example.createCriteria();
+        criteria.andTargetIdEqualTo(answerid);
+        List<Likes> likes=likesMapper.selectByExample(example);
+        for(Likes like: likes)
+        {
+            LikeDTO likeDTO=new LikeDTO();
+            likeDTO.setLikeid(like.getLikeId());
+            likeDTO.setUserid(like.getUserId());
+            likeDTO.setTargetid(like.getTargetId());
+            likeDTOS.add(likeDTO);
+        }
+        return likeDTOS;
     }
     public List<QuestionDTO> searchByQuestion(String content)
     {
@@ -150,13 +172,40 @@ public class QAServiceImpl implements QAService {
         return  answers;
     }
     @Override
+    public List<LikeDTO> clickLike(Long answerid)
+    {
+        Likes likes=new Likes();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        likes.setLikeId(YitIdHelper.nextId());
+        likes.setTargetId(answerid);
+        likes.setUserId(myId);
+        likesMapper.insert(likes);
+        List<LikeDTO> likeDTOS=getAllAnswerLikes(answerid);
+        return likeDTOS;
+    }
+    @Override
+    public List<LikeDTO> undoLike(Long answerid)
+    {
+        Likes likes=new Likes();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        LikesExample example=new LikesExample();
+        LikesExample.Criteria criteria=example.createCriteria();
+        criteria.andTargetIdEqualTo(answerid).andUserIdEqualTo(myId);
+        likes.setTargetId(answerid);
+        likes.setUserId(myId);
+        likesMapper.deleteByExample(example);
+        List<LikeDTO> likeDTOS=getAllAnswerLikes(answerid);
+        return likeDTOS;
+    }
+    @Override
     public List<AnswerDTO>getAnswer(Long questionid)
     {
         List<AnswerDTO> answerDTOS=new ArrayList<>();
         AnswersExample example=new AnswersExample();
         AnswersExample.Criteria criteria= example.createCriteria();
         criteria.andQuestionIdEqualTo(questionid);
-        PageHelper.startPage(1,1);
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        PageHelper.startPage(1,2);
         List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
         for(Answers answer:answers)
         {
@@ -164,11 +213,21 @@ public class QAServiceImpl implements QAService {
             answerDTO.setAdopted(answer.getAdopted());
             answerDTO.setQuestionid(answer.getQuestionId());
             answerDTO.setAnswercontent(answer.getAnswerContent());
-            answerDTO.setAnswerid(answer.getAnswererId());
+            answerDTO.setAnswerid(answer.getAnswerId());
             answerDTO.setAnswererid(answer.getAnswererId());
             Users users = usersMapper.selectByPrimaryKey(answerDTO.getAnswererid());
             answerDTO.setAnswerername(users.getUserName());
             answerDTO.setAnswereravatar(users.getUserAvatar());
+            List<LikeDTO> likeDTOS=getAllAnswerLikes(answer.getAnswerId());
+            for(LikeDTO likeDTO:likeDTOS)
+            {
+                if(likeDTO.getUserid()==myId)
+                {
+                    answerDTO.setIsliked(true);
+                    break;
+                }
+            }
+            answerDTO.setLikenum(likeDTOS.size());
             answerDTOS.add(answerDTO);
         }
         return answerDTOS;
