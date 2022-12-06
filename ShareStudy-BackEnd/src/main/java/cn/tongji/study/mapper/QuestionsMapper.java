@@ -19,10 +19,10 @@ public interface QuestionsMapper {
     List<Questions> selectByExampleWithBLOBs(QuestionsExample example);
 
     List<Questions> selectByExample(QuestionsExample example);
-    List<Questions>fuzzyQuery(String content);
 
     Questions selectByPrimaryKey(Long questionId);
 
+    List<Questions> fuzzyQuery(String info);
     int updateByExampleSelective(@Param("record") Questions record, @Param("example") QuestionsExample example);
 
     int updateByExampleWithBLOBs(@Param("record") Questions record, @Param("example") QuestionsExample example);

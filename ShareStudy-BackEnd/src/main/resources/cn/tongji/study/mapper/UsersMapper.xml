@@ -6,13 +6,14 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="bonus_points" jdbcType="INTEGER" property="bonusPoints" />
-    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="academic_number" jdbcType="VARCHAR" property="academicNumber" />
     <result column="user_type" jdbcType="SMALLINT" property="userType" />
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
-    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="birth_year" jdbcType="INTEGER" property="birthYear" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.tongji.study.model.Users">
     <result column="user_avatar" jdbcType="LONGVARCHAR" property="userAvatar" />
@@ -76,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, created_time, user_name, bonus_points, phone_number, sex, academic_number, 
-    user_type, last_login_time, age, password
+    user_id, created_time, user_name, bonus_points, email, sex, academic_number, user_type, 
+    last_login_time, birth_year, password, real_name
   </sql>
   <sql id="Blob_Column_List">
     user_avatar
@@ -132,15 +133,15 @@
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.Users">
     insert into users (user_id, created_time, user_name, 
-      bonus_points, phone_number, sex, 
+      bonus_points, email, sex, 
       academic_number, user_type, last_login_time, 
-      age, password, user_avatar
-      )
+      birth_year, password, real_name, 
+      user_avatar)
     values (#{userId,jdbcType=BIGINT}, #{createdTime,jdbcType=TIMESTAMP}, #{userName,jdbcType=VARCHAR}, 
-      #{bonusPoints,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{bonusPoints,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{academicNumber,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
-      #{age,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{userAvatar,jdbcType=LONGVARCHAR}
-      )
+      #{birthYear,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+      #{userAvatar,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.Users">
     insert into users
@@ -157,8 +158,8 @@
       <if test="bonusPoints != null">
         bonus_points,
       </if>
-      <if test="phoneNumber != null">
-        phone_number,
+      <if test="email != null">
+        email,
       </if>
       <if test="sex != null">
         sex,
@@ -172,11 +173,14 @@
       <if test="lastLoginTime != null">
         last_login_time,
       </if>
-      <if test="age != null">
-        age,
+      <if test="birthYear != null">
+        birth_year,
       </if>
       <if test="password != null">
         password,
+      </if>
+      <if test="realName != null">
+        real_name,
       </if>
       <if test="userAvatar != null">
         user_avatar,
@@ -195,8 +199,8 @@
       <if test="bonusPoints != null">
         #{bonusPoints,jdbcType=INTEGER},
       </if>
-      <if test="phoneNumber != null">
-        #{phoneNumber,jdbcType=VARCHAR},
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
@@ -210,11 +214,14 @@
       <if test="lastLoginTime != null">
         #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="age != null">
-        #{age,jdbcType=INTEGER},
+      <if test="birthYear != null">
+        #{birthYear,jdbcType=INTEGER},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
       </if>
       <if test="userAvatar != null">
         #{userAvatar,jdbcType=LONGVARCHAR},
@@ -242,8 +249,8 @@
       <if test="record.bonusPoints != null">
         bonus_points = #{record.bonusPoints,jdbcType=INTEGER},
       </if>
-      <if test="record.phoneNumber != null">
-        phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
       </if>
       <if test="record.sex != null">
         sex = #{record.sex,jdbcType=VARCHAR},
@@ -257,11 +264,14 @@
       <if test="record.lastLoginTime != null">
         last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.age != null">
-        age = #{record.age,jdbcType=INTEGER},
+      <if test="record.birthYear != null">
+        birth_year = #{record.birthYear,jdbcType=INTEGER},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null">
+        real_name = #{record.realName,jdbcType=VARCHAR},
       </if>
       <if test="record.userAvatar != null">
         user_avatar = #{record.userAvatar,jdbcType=LONGVARCHAR},
@@ -277,13 +287,14 @@
       created_time = #{record.createdTime,jdbcType=TIMESTAMP},
       user_name = #{record.userName,jdbcType=VARCHAR},
       bonus_points = #{record.bonusPoints,jdbcType=INTEGER},
-      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       academic_number = #{record.academicNumber,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=SMALLINT},
       last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
-      age = #{record.age,jdbcType=INTEGER},
+      birth_year = #{record.birthYear,jdbcType=INTEGER},
       password = #{record.password,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR},
       user_avatar = #{record.userAvatar,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -295,13 +306,14 @@
       created_time = #{record.createdTime,jdbcType=TIMESTAMP},
       user_name = #{record.userName,jdbcType=VARCHAR},
       bonus_points = #{record.bonusPoints,jdbcType=INTEGER},
-      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       academic_number = #{record.academicNumber,jdbcType=VARCHAR},
       user_type = #{record.userType,jdbcType=SMALLINT},
       last_login_time = #{record.lastLoginTime,jdbcType=TIMESTAMP},
-      age = #{record.age,jdbcType=INTEGER},
-      password = #{record.password,jdbcType=VARCHAR}
+      birth_year = #{record.birthYear,jdbcType=INTEGER},
+      password = #{record.password,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -318,8 +330,8 @@
       <if test="bonusPoints != null">
         bonus_points = #{bonusPoints,jdbcType=INTEGER},
       </if>
-      <if test="phoneNumber != null">
-        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
@@ -333,11 +345,14 @@
       <if test="lastLoginTime != null">
         last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="age != null">
-        age = #{age,jdbcType=INTEGER},
+      <if test="birthYear != null">
+        birth_year = #{birthYear,jdbcType=INTEGER},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
       </if>
       <if test="userAvatar != null">
         user_avatar = #{userAvatar,jdbcType=LONGVARCHAR},
@@ -350,13 +365,14 @@
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       user_name = #{userName,jdbcType=VARCHAR},
       bonus_points = #{bonusPoints,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       academic_number = #{academicNumber,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=SMALLINT},
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      age = #{age,jdbcType=INTEGER},
+      birth_year = #{birthYear,jdbcType=INTEGER},
       password = #{password,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
       user_avatar = #{userAvatar,jdbcType=LONGVARCHAR}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
@@ -365,13 +381,14 @@
     set created_time = #{createdTime,jdbcType=TIMESTAMP},
       user_name = #{userName,jdbcType=VARCHAR},
       bonus_points = #{bonusPoints,jdbcType=INTEGER},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       academic_number = #{academicNumber,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=SMALLINT},
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      age = #{age,jdbcType=INTEGER},
-      password = #{password,jdbcType=VARCHAR}
+      birth_year = #{birthYear,jdbcType=INTEGER},
+      password = #{password,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=BIGINT}
   </update>
 </mapper>

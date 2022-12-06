@@ -1,5 +1,6 @@
 package cn.tongji.study.service;
 
+import cn.tongji.study.dto.UserInfoDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,4 +12,6 @@ public interface PersonalInfoService {
     void updateAvatar(String avatarUrl);
 
     Integer updateBonusPoints(Integer updateNum);
+
+    UserInfoDTO getUserInfo(Long userId);
 }
