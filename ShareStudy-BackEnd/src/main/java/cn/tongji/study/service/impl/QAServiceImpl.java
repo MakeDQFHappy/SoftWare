@@ -3,12 +3,10 @@ package cn.tongji.study.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.tongji.study.dto.AnswerDTO;
 import cn.tongji.study.dto.LikeDTO;
-import cn.tongji.study.mapper.LikesMapper;
+import cn.tongji.study.dto.TagDTO;
+import cn.tongji.study.mapper.*;
 import cn.tongji.study.model.*;
 import cn.tongji.study.dto.QuestionDTO;
-import cn.tongji.study.mapper.AnswersMapper;
-import cn.tongji.study.mapper.QuestionsMapper;
-import cn.tongji.study.mapper.UsersMapper;
 import cn.tongji.study.model.QuestionsExample;
 import cn.tongji.study.service.QAService;
 import com.github.pagehelper.PageHelper;
@@ -32,6 +30,10 @@ public class QAServiceImpl implements QAService {
     @Resource
     LikesMapper likesMapper;
     @Resource
+    TagsMapper tagsMapper;
+    @Resource
+    TagMapMapper tagMapMapper;
+    @Resource
     AnswersMapper answersMapper;
     @Override
     public List<QuestionDTO> getMyQuestion()
@@ -52,14 +54,8 @@ public class QAServiceImpl implements QAService {
             myQuestionDTO.setQuestioncontent(question.getQuestionContent());
             myQuestionDTO.setQuestionaskerid(myId);
             myQuestionDTO.setCreatetime(question.getCreateTime());
-            AnswersExample example1=new AnswersExample();
-            AnswersExample.Criteria criteria1=example1.createCriteria();
-            criteria1.andQuestionIdEqualTo(question.getQuestionId());
-            List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example1);
-            if(answers.isEmpty())
-                myQuestionDTO.setHasanswerer(false);
-            else
-                myQuestionDTO.setHasanswerer(true);
+            myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
+            myQuestionDTO.setHasanswerer(question.getHasAnswerer());
             myQuestionDTOS.add(myQuestionDTO);
         }
         return myQuestionDTOS;
@@ -88,25 +84,18 @@ public class QAServiceImpl implements QAService {
         Long myId= Long.parseLong((String) StpUtil.getLoginId());
         QuestionsExample example=new QuestionsExample();
         QuestionsExample.Criteria criteria= example.createCriteria();
-        List<Questions> questions=questionsMapper.fuzzyQuery(content);
-        for(Questions question: questions)
-        {
-            QuestionDTO myQuestionDTO=new QuestionDTO();
+        criteria.andQuestionHeaderLike('%'+content+'%');
+        List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example);
+        for(Questions question: questions) {
+            QuestionDTO myQuestionDTO = new QuestionDTO();
             myQuestionDTO.setQuestionid(question.getQuestionId());
             myQuestionDTO.setRewardpoints(question.getRewardPoints());
             myQuestionDTO.setQuestionheader(question.getQuestionHeader());
             myQuestionDTO.setQuestioncontent(question.getQuestionContent());
             myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
             myQuestionDTO.setCreatetime(question.getCreateTime());
-            AnswersExample example1=new AnswersExample();
-            AnswersExample.Criteria criteria1=example1.createCriteria();
-            criteria1.andQuestionIdEqualTo(question.getQuestionId());
-            List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example1);
-            if(answers.isEmpty())
-                myQuestionDTO.setHasanswerer(false);
-            else
-                myQuestionDTO.setHasanswerer(true);
-            myQuestionDTOS.add(myQuestionDTO);
+            myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
+            myQuestionDTO.setHasanswerer(question.getHasAnswerer());
         }
         return myQuestionDTOS;
     }
@@ -135,6 +124,7 @@ public class QAServiceImpl implements QAService {
                 myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
                 myQuestionDTO.setCreatetime(question.getCreateTime());
                 myQuestionDTO.setHasanswerer(true);
+                myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
                 if(!myQuestionDTOS.contains(myQuestionDTO))
                 myQuestionDTOS.add(myQuestionDTO);
             }
@@ -142,7 +132,7 @@ public class QAServiceImpl implements QAService {
         return myQuestionDTOS;
     }
     @Override
-    public Questions askQuestion(String content,String header,Integer rewardpoints){
+    public Questions askQuestion(String content,String header,Integer rewardpoints,String tag1,String tag2,String tag3){
         Questions questions=new Questions();
         questions.setQuestionHeader(header);
         questions.setRewardPoints(rewardpoints);
@@ -155,6 +145,41 @@ public class QAServiceImpl implements QAService {
         Date date = new Date();
         Timestamp timestamp=new Timestamp(date.getTime());
         questions.setCreateTime(timestamp);
+        questions.setHasAdoptedAnswer(false);
+        questions.setHasAnswerer(false);
+        if(tag1!="")
+        {
+            Tags tags=new Tags();
+            tags.setValue(tag1);
+            tags.setTagId(YitIdHelper.nextId());
+            tagsMapper.insert(tags);
+            TagMap tagMap=new TagMap();
+            tagMap.setTagId(tags.getTagId());
+            tagMap.setTargetId(questions.getQuestionId());
+            tagMapMapper.insert(tagMap);
+        }
+        if(tag2!="")
+        {
+            Tags tags=new Tags();
+            tags.setValue(tag2);
+            tags.setTagId(YitIdHelper.nextId());
+            tagsMapper.insert(tags);
+            TagMap tagMap=new TagMap();
+            tagMap.setTagId(tags.getTagId());
+            tagMap.setTargetId(questions.getQuestionId());
+            tagMapMapper.insert(tagMap);
+        }
+        if(tag3!="")
+        {
+            Tags tags=new Tags();
+            tags.setValue(tag3);
+            tags.setTagId(YitIdHelper.nextId());
+            tagsMapper.insert(tags);
+            TagMap tagMap=new TagMap();
+            tagMap.setTagId(tags.getTagId());
+            tagMap.setTargetId(questions.getQuestionId());
+            tagMapMapper.insert(tagMap);
+        }
         questionsMapper.insert(questions);
         return questions;
     }
@@ -166,9 +191,28 @@ public class QAServiceImpl implements QAService {
         answers.setAnswererId(myId);
         answers.setAnswerId(YitIdHelper.nextId());
         answers.setQuestionId(questionid);
+        Questions questions=questionsMapper.selectByPrimaryKey(questionid);
+        questions.setHasAnswerer(true);
+        questionsMapper.updateByPrimaryKeyWithBLOBs(questions);
         answers.setAdopted(false);
         answers.setAnswerContent(content);
+        TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+        TimeZone.setDefault(time);
+        Date date = new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
+        answers.setCreateTime(timestamp);
         answersMapper.insert(answers);
+        return  answers;
+    }
+    @Override
+    public Answers adoptanswer(Long answerid)
+    {
+        Answers answers=answersMapper.selectByPrimaryKey(answerid);
+        answers.setAdopted(true);
+        answersMapper.updateByPrimaryKey(answers);
+        Questions questions=questionsMapper.selectByPrimaryKey(answers.getQuestionId());
+        questions.setHasAdoptedAnswer(true);
+        questionsMapper.updateByPrimaryKeyWithBLOBs(questions);
         return  answers;
     }
     @Override
@@ -215,6 +259,7 @@ public class QAServiceImpl implements QAService {
             answerDTO.setAnswercontent(answer.getAnswerContent());
             answerDTO.setAnswerid(answer.getAnswerId());
             answerDTO.setAnswererid(answer.getAnswererId());
+            answerDTO.setCreatetime(answer.getCreateTime());
             Users users = usersMapper.selectByPrimaryKey(answerDTO.getAnswererid());
             answerDTO.setAnswerername(users.getUserName());
             answerDTO.setAnswereravatar(users.getUserAvatar());
@@ -231,5 +276,22 @@ public class QAServiceImpl implements QAService {
             answerDTOS.add(answerDTO);
         }
         return answerDTOS;
+    }
+    @Override
+    public List<TagDTO>getTags(Long questionid)
+    {
+        List<TagDTO> tagDTOS=new ArrayList<>();
+        TagMapExample example=new TagMapExample();
+        TagMapExample.Criteria criteria=example.createCriteria();
+        criteria.andTargetIdEqualTo(questionid);
+        List<TagMap> tagMaps=tagMapMapper.selectByExample(example);
+        for(TagMap tagMap:tagMaps) {
+            Tags tags = tagsMapper.selectByPrimaryKey(tagMap.getTagId());
+            TagDTO tagDTO=new TagDTO();
+            tagDTO.setValue(tags.getValue());
+            tagDTO.setTagid(tags.getTagId());
+            tagDTOS.add(tagDTO);
+        }
+        return tagDTOS;
     }
 }

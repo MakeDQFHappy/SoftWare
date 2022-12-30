@@ -305,5 +305,4 @@
       has_answerer = #{hasAnswerer,jdbcType=BIT}
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
-
 </mapper>

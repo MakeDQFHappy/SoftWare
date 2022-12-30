@@ -3,6 +3,7 @@ package cn.tongji.study.controller;
 import cn.tongji.study.dto.AnswerDTO;
 import cn.tongji.study.dto.LikeDTO;
 import cn.tongji.study.dto.QuestionDTO;
+import cn.tongji.study.dto.TagDTO;
 import cn.tongji.study.mapper.QuestionsMapper;
 import cn.tongji.study.model.Answers;
 import cn.tongji.study.model.FriendPrivateMessages;
@@ -45,10 +46,13 @@ public class QAController {
     public ResponseEntity<Questions>askQuestion(
             @RequestBody String content,
             @RequestParam(value = "header")String header,
-            @RequestParam(value = "rewardpoints") Integer rewardpoints
+            @RequestParam(value = "rewardpoints") Integer rewardpoints,
+            @RequestParam(value="inputtag1")String tag1,
+            @RequestParam(value="inputtag2")String tag2,
+            @RequestParam(value="inputtag3")String tag3
     ){
         try {
-            return ResponseEntity.ok(QAservice.askQuestion(content,header,rewardpoints));
+            return ResponseEntity.ok(QAservice.askQuestion(content,header,rewardpoints,tag1,tag2,tag3));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);
@@ -91,6 +95,18 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
+    @PostMapping("adoptanswer")
+    public  ResponseEntity<Answers>adoptanswer(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.adoptanswer(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @GetMapping("getAnswer")
     public  ResponseEntity<List<AnswerDTO>>getAnswer(
             @RequestParam(value = "questionid") Long questionid
@@ -98,6 +114,18 @@ public class QAController {
     {
         try {
             return ResponseEntity.ok(QAservice.getAnswer(questionid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getTags")
+    public  ResponseEntity<List<TagDTO>>getTags(
+            @RequestParam(value = "questionid") Long questionid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.getTags(questionid));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

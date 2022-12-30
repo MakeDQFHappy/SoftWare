@@ -37,9 +37,9 @@ public class RedisConfig {
                 .serializeValuesWith(valuePair());
 
         RedisCacheConfiguration cacheConfig2 = RedisCacheConfiguration.defaultCacheConfig()
-                // 设置过期时间 30 秒
+                // 设置过期时间 30 分钟
                 .entryTtl(Duration.ofMinutes(30))
-                .prefixKeysWith("cache:admin:")
+                .prefixKeysWith("cache:answer_comment:")
                 .disableCachingNullValues()
                 .serializeKeysWith(keyPair())
                 .serializeValuesWith(valuePair());
@@ -47,7 +47,7 @@ public class RedisConfig {
         // 返回 Redis 缓存管理器
         return RedisCacheManager.builder(factory)
                 .withCacheConfiguration("answer_like", cacheConfig1)
-                .withCacheConfiguration("admin", cacheConfig2)
+                .withCacheConfiguration("answer_comment", cacheConfig2)
                 .build();
     }
 

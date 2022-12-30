@@ -12,5 +12,6 @@ public class QuestionDTO {
     Integer rewardpoints;
     String questionheader;
     Boolean hasanswerer;
+    Boolean hasadoptedanswer=false;
     Date createtime;
 }
