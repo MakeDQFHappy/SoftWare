@@ -195,6 +195,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="fuzzyQuery" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select * from questions where questions.question_header like concat('%',#{info},'%');
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update questions
     <set>

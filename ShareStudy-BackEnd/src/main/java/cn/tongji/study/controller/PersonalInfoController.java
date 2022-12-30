@@ -1,5 +1,6 @@
 package cn.tongji.study.controller;
 
+import cn.tongji.study.dto.UserInfoDTO;
 import cn.tongji.study.service.OssService;
 import cn.tongji.study.service.PersonalInfoService;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +44,18 @@ public class PersonalInfoController {
     ){
         try {
             return ResponseEntity.ok(personalInfoService.updateBonusPoints(changeNum));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+
+    @GetMapping("getUserInfo")
+    public ResponseEntity<UserInfoDTO>getUserInfo(
+            @RequestParam("userId") Long userId
+    ){
+        try {
+            return ResponseEntity.ok(personalInfoService.getUserInfo(userId));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

@@ -12,7 +12,7 @@ public class Users implements Serializable {
 
     private Integer bonusPoints;
 
-    private String phoneNumber;
+    private String email;
 
     private String sex;
 
@@ -22,9 +22,11 @@ public class Users implements Serializable {
 
     private Date lastLoginTime;
 
-    private Integer age;
+    private Integer birthYear;
 
     private String password;
+
+    private String realName;
 
     private String userAvatar;
 
@@ -62,12 +64,12 @@ public class Users implements Serializable {
         this.bonusPoints = bonusPoints;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getSex() {
@@ -102,12 +104,12 @@ public class Users implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getBirthYear() {
+        return birthYear;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
     }
 
     public String getPassword() {
@@ -116,6 +118,14 @@ public class Users implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getUserAvatar() {
@@ -136,13 +146,14 @@ public class Users implements Serializable {
         sb.append(", createdTime=").append(createdTime);
         sb.append(", userName=").append(userName);
         sb.append(", bonusPoints=").append(bonusPoints);
-        sb.append(", phoneNumber=").append(phoneNumber);
+        sb.append(", email=").append(email);
         sb.append(", sex=").append(sex);
         sb.append(", academicNumber=").append(academicNumber);
         sb.append(", userType=").append(userType);
         sb.append(", lastLoginTime=").append(lastLoginTime);
-        sb.append(", age=").append(age);
+        sb.append(", birthYear=").append(birthYear);
         sb.append(", password=").append(password);
+        sb.append(", realName=").append(realName);
         sb.append(", userAvatar=").append(userAvatar);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
