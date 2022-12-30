@@ -19,7 +19,6 @@ public interface QuestionsMapper {
     List<Questions> selectByExampleWithBLOBs(QuestionsExample example);
 
     List<Questions> selectByExample(QuestionsExample example);
-    List<Questions>fuzzyQuery(String content);
 
     Questions selectByPrimaryKey(Long questionId);
 

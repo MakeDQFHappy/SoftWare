@@ -5,11 +5,13 @@
     <id column="question_id" jdbcType="BIGINT" property="questionId" />
     <result column="question_asker_id" jdbcType="BIGINT" property="questionAskerId" />
     <result column="reward_points" jdbcType="INTEGER" property="rewardPoints" />
+    <result column="question_header" jdbcType="VARCHAR" property="questionHeader" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="has_adopted_answer" jdbcType="BIT" property="hasAdoptedAnswer" />
+    <result column="has_answerer" jdbcType="BIT" property="hasAnswerer" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.tongji.study.model.Questions">
     <result column="question_content" jdbcType="LONGVARCHAR" property="questionContent" />
-    <result column="question_header" jdbcType="LONGVARCHAR" property="questionHeader" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,10 +72,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    question_id, question_asker_id, reward_points, create_time
+    question_id, question_asker_id, reward_points, question_header, create_time, has_adopted_answer, 
+    has_answerer
   </sql>
   <sql id="Blob_Column_List">
-    question_content, question_header
+    question_content
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="cn.tongji.study.model.QuestionsExample" resultMap="ResultMapWithBLOBs">
     select
@@ -125,11 +128,11 @@
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.Questions">
     insert into questions (question_id, question_asker_id, reward_points, 
-      create_time, question_content, question_header
-      )
+      question_header, create_time, has_adopted_answer, 
+      has_answerer, question_content)
     values (#{questionId,jdbcType=BIGINT}, #{questionAskerId,jdbcType=BIGINT}, #{rewardPoints,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{questionContent,jdbcType=LONGVARCHAR}, #{questionHeader,jdbcType=LONGVARCHAR}
-      )
+      #{questionHeader,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{hasAdoptedAnswer,jdbcType=BIT}, 
+      #{hasAnswerer,jdbcType=BIT}, #{questionContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.Questions">
     insert into questions
@@ -143,14 +146,20 @@
       <if test="rewardPoints != null">
         reward_points,
       </if>
+      <if test="questionHeader != null">
+        question_header,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="hasAdoptedAnswer != null">
+        has_adopted_answer,
+      </if>
+      <if test="hasAnswerer != null">
+        has_answerer,
+      </if>
       <if test="questionContent != null">
         question_content,
-      </if>
-      <if test="questionHeader != null">
-        question_header,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -163,14 +172,20 @@
       <if test="rewardPoints != null">
         #{rewardPoints,jdbcType=INTEGER},
       </if>
+      <if test="questionHeader != null">
+        #{questionHeader,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="hasAdoptedAnswer != null">
+        #{hasAdoptedAnswer,jdbcType=BIT},
+      </if>
+      <if test="hasAnswerer != null">
+        #{hasAnswerer,jdbcType=BIT},
+      </if>
       <if test="questionContent != null">
         #{questionContent,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="questionHeader != null">
-        #{questionHeader,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -192,14 +207,20 @@
       <if test="record.rewardPoints != null">
         reward_points = #{record.rewardPoints,jdbcType=INTEGER},
       </if>
+      <if test="record.questionHeader != null">
+        question_header = #{record.questionHeader,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.hasAdoptedAnswer != null">
+        has_adopted_answer = #{record.hasAdoptedAnswer,jdbcType=BIT},
+      </if>
+      <if test="record.hasAnswerer != null">
+        has_answerer = #{record.hasAnswerer,jdbcType=BIT},
+      </if>
       <if test="record.questionContent != null">
         question_content = #{record.questionContent,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.questionHeader != null">
-        question_header = #{record.questionHeader,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -211,9 +232,11 @@
     set question_id = #{record.questionId,jdbcType=BIGINT},
       question_asker_id = #{record.questionAskerId,jdbcType=BIGINT},
       reward_points = #{record.rewardPoints,jdbcType=INTEGER},
+      question_header = #{record.questionHeader,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      question_content = #{record.questionContent,jdbcType=LONGVARCHAR},
-      question_header = #{record.questionHeader,jdbcType=LONGVARCHAR}
+      has_adopted_answer = #{record.hasAdoptedAnswer,jdbcType=BIT},
+      has_answerer = #{record.hasAnswerer,jdbcType=BIT},
+      question_content = #{record.questionContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -223,7 +246,10 @@
     set question_id = #{record.questionId,jdbcType=BIGINT},
       question_asker_id = #{record.questionAskerId,jdbcType=BIGINT},
       reward_points = #{record.rewardPoints,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      question_header = #{record.questionHeader,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      has_adopted_answer = #{record.hasAdoptedAnswer,jdbcType=BIT},
+      has_answerer = #{record.hasAnswerer,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -237,14 +263,20 @@
       <if test="rewardPoints != null">
         reward_points = #{rewardPoints,jdbcType=INTEGER},
       </if>
+      <if test="questionHeader != null">
+        question_header = #{questionHeader,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="hasAdoptedAnswer != null">
+        has_adopted_answer = #{hasAdoptedAnswer,jdbcType=BIT},
+      </if>
+      <if test="hasAnswerer != null">
+        has_answerer = #{hasAnswerer,jdbcType=BIT},
+      </if>
       <if test="questionContent != null">
         question_content = #{questionContent,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="questionHeader != null">
-        question_header = #{questionHeader,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where question_id = #{questionId,jdbcType=BIGINT}
@@ -253,19 +285,21 @@
     update questions
     set question_asker_id = #{questionAskerId,jdbcType=BIGINT},
       reward_points = #{rewardPoints,jdbcType=INTEGER},
+      question_header = #{questionHeader,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      question_content = #{questionContent,jdbcType=LONGVARCHAR},
-      question_header = #{questionHeader,jdbcType=LONGVARCHAR}
+      has_adopted_answer = #{hasAdoptedAnswer,jdbcType=BIT},
+      has_answerer = #{hasAnswerer,jdbcType=BIT},
+      question_content = #{questionContent,jdbcType=LONGVARCHAR}
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.tongji.study.model.Questions">
     update questions
     set question_asker_id = #{questionAskerId,jdbcType=BIGINT},
       reward_points = #{rewardPoints,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      question_header = #{questionHeader,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      has_adopted_answer = #{hasAdoptedAnswer,jdbcType=BIT},
+      has_answerer = #{hasAnswerer,jdbcType=BIT}
     where question_id = #{questionId,jdbcType=BIGINT}
   </update>
-  <select id="fuzzyQuery" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select * from questions where questions.question_header like concat('%',#{info},'%');
-  </select>
 </mapper>
