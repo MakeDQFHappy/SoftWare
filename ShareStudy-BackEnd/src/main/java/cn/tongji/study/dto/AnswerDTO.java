@@ -15,5 +15,9 @@ public class AnswerDTO {
     String answereravatar;
     Date createtime;
     Integer likenum;
+    Integer starnum;
+    Boolean isStared=false;
+    Integer commentnum;
     Boolean isliked=false;
+    Boolean hascomment=false;
 }

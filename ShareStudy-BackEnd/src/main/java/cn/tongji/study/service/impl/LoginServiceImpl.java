@@ -53,7 +53,6 @@ public class LoginServiceImpl implements LoginService {
         loginDTO.setUserAvatar(users.get(0).getUserAvatar());
         loginDTO.setUserId(users.get(0).getUserId());
         loginDTO.setUserToken(StpUtil.getTokenValue());
-        loginDTO.setAge(users.get(0).getAge());
         loginDTO.setSex(users.get(0).getSex());
         loginDTO.setBonusPoints(users.get(0).getBonusPoints());
         loginDTO.setUserName(users.get(0).getUserName());

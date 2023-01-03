@@ -43,11 +43,19 @@ public class RedisConfig {
                 .disableCachingNullValues()
                 .serializeKeysWith(keyPair())
                 .serializeValuesWith(valuePair());
+        RedisCacheConfiguration cacheConfig3 = RedisCacheConfiguration.defaultCacheConfig()
+                // 设置过期时间 30 分钟
+                .entryTtl(Duration.ofMinutes(30))
+                .prefixKeysWith("cache:answer_star:")
+                .disableCachingNullValues()
+                .serializeKeysWith(keyPair())
+                .serializeValuesWith(valuePair());
 
         // 返回 Redis 缓存管理器
         return RedisCacheManager.builder(factory)
                 .withCacheConfiguration("answer_like", cacheConfig1)
                 .withCacheConfiguration("answer_comment", cacheConfig2)
+                .withCacheConfiguration("answer_star", cacheConfig3)
                 .build();
     }
 

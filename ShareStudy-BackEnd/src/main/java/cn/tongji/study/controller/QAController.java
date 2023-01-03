@@ -1,14 +1,8 @@
 package cn.tongji.study.controller;
 
-import cn.tongji.study.dto.AnswerDTO;
-import cn.tongji.study.dto.LikeDTO;
-import cn.tongji.study.dto.QuestionDTO;
-import cn.tongji.study.dto.TagDTO;
+import cn.tongji.study.dto.*;
 import cn.tongji.study.mapper.QuestionsMapper;
-import cn.tongji.study.model.Answers;
-import cn.tongji.study.model.FriendPrivateMessages;
-import cn.tongji.study.model.Likes;
-import cn.tongji.study.model.Questions;
+import cn.tongji.study.model.*;
 import cn.tongji.study.service.OssService;
 import cn.tongji.study.service.QAService;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +22,35 @@ public class QAController {
     public ResponseEntity<List<QuestionDTO>> getMyQuestion(){
         try {
             return ResponseEntity.ok(QAservice.getMyQuestion());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getRecommend")
+    public ResponseEntity<List<QuestionDTO>> getRecommend(){
+        try {
+            return ResponseEntity.ok(QAservice.getRecommend());
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getQuestionById")
+    public ResponseEntity<List<QuestionDTO>> getQuestionById(
+            @RequestParam(value = "questionid") Long questionid
+    ){
+        try {
+            return ResponseEntity.ok(QAservice.getQuestionById(questionid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getMyCollection")
+    public ResponseEntity<List<QuestionDTO>> getMyCollection(){
+        try {
+            return ResponseEntity.ok(QAservice.getMyCollection());
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);
@@ -95,6 +118,30 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
+    @PostMapping("clickStar")
+    public  ResponseEntity<List<CollectionDTO>>clickStar(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.clickStar(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @PostMapping("undoStar")
+    public  ResponseEntity<List<CollectionDTO>>undoStar(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.undoStar(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @PostMapping("adoptanswer")
     public  ResponseEntity<Answers>adoptanswer(
             @RequestParam(value = "answerid") Long answerid
@@ -107,6 +154,19 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
+    @PostMapping("makeComment")
+    public  ResponseEntity<Comments>makeComment(
+            @RequestBody String content,
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.makeComment(answerid,content));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @GetMapping("getAnswer")
     public  ResponseEntity<List<AnswerDTO>>getAnswer(
             @RequestParam(value = "questionid") Long questionid
@@ -114,6 +174,30 @@ public class QAController {
     {
         try {
             return ResponseEntity.ok(QAservice.getAnswer(questionid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getAnswerById")
+    public  ResponseEntity<AnswerDTO>getAnswerById(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.getAnswerById(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @GetMapping("getAnswerComments")
+    public  ResponseEntity<List<CommentDTO>>getAllAnswerComments(
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            return ResponseEntity.ok(QAservice.getAllAnswerComments(answerid));
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

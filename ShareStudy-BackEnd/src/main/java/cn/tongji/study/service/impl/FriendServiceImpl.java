@@ -83,7 +83,6 @@ public class FriendServiceImpl implements FriendService {
             receiveFriendReqDTO.setFriendName(users.getUserName());
             receiveFriendReqDTO.setIntroduction(friendApplication.getIntroduction());
             receiveFriendReqDTO.setCreateTime(friendApplication.getCreateTime());
-            receiveFriendReqDTO.setAge(users.getAge());
             receiveFriendReqDTO.setSex(users.getSex());
             receiveFriendReqDTO.setApplicationId(friendApplication.getApplicationId());
             receiveFriendReqDTO.setFriendId(applicantId);
@@ -106,7 +105,6 @@ public class FriendServiceImpl implements FriendService {
             receiveFriendReqDTO.setFriendAvatar(users.getUserAvatar());
             receiveFriendReqDTO.setFriendName(users.getUserName());
             receiveFriendReqDTO.setCreateTime(friendApplication.getCreateTime());
-            receiveFriendReqDTO.setAge(users.getAge());
             receiveFriendReqDTO.setFriendId(users.getUserId());
             receiveFriendReqDTO.setSex(users.getSex());
             receiveFriendReqDTO.setIntroduction(friendApplication.getIntroduction());
@@ -143,7 +141,6 @@ public class FriendServiceImpl implements FriendService {
         criteria.andUserNameLike("%"+searchInfo+"%");
         if(searchInfo.length()>=5){
             UsersExample.Criteria criteria1 = example.or();
-            criteria1.andPhoneNumberLike(searchInfo+"%");
         }
         List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
         List<SearchUserDTO> searchUserDTOS = new ArrayList<>();
@@ -154,7 +151,6 @@ public class FriendServiceImpl implements FriendService {
                 SearchUserDTO searchUserDTO=new SearchUserDTO();
                 searchUserDTO.setUserName(user.getUserName());
                 searchUserDTO.setSex(user.getSex());
-                searchUserDTO.setAge(user.getAge());
                 searchUserDTO.setUserAvatar(user.getUserAvatar());
                 searchUserDTO.setUserId(user.getUserId());
                 searchUserDTOS.add(searchUserDTO);
@@ -207,7 +203,6 @@ public class FriendServiceImpl implements FriendService {
             myFriendDTO.setFriendName(users.getUserName());
             myFriendDTO.setFriendAvatar(users.getUserAvatar());
             myFriendDTO.setFriendKey(friend.getFriendKey());
-            myFriendDTO.setAge(users.getAge());
             myFriendDTO.setSex(users.getSex());
             myFriendDTO.setLastChatTime(friend.getLastChatTime());
             myFriendDTO.setNotReadNum(countNotRead(myId,friendId));
