@@ -3,6 +3,8 @@ package cn.tongji.study.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.tongji.study.dto.AnswerDTO;
 import cn.tongji.study.dto.LikeDTO;
+import cn.tongji.study.dto.CollectionDTO;
+import cn.tongji.study.dto.CommentDTO;
 import cn.tongji.study.dto.TagDTO;
 import cn.tongji.study.mapper.*;
 import cn.tongji.study.model.*;
@@ -14,6 +16,7 @@ import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.xml.stream.events.Comment;
 import java.net.http.WebSocket;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -30,11 +33,15 @@ public class QAServiceImpl implements QAService {
     @Resource
     LikesMapper likesMapper;
     @Resource
+    AnswerCollectionsMapper answerCollectionsMapper;
+    @Resource
     TagsMapper tagsMapper;
     @Resource
     TagMapMapper tagMapMapper;
     @Resource
     AnswersMapper answersMapper;
+    @Resource
+    CommentsMapper commentsMapper;
     @Override
     public List<QuestionDTO> getMyQuestion()
     {
@@ -60,6 +67,30 @@ public class QAServiceImpl implements QAService {
         }
         return myQuestionDTOS;
     }
+    @Override
+    public List<QuestionDTO> getQuestionById(Long questionid)
+    {
+        List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
+        QuestionsExample example=new QuestionsExample();
+        QuestionsExample.Criteria criteria= example.createCriteria();
+        criteria.andQuestionIdEqualTo(questionid);
+        List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example);
+        for(Questions question: questions)
+        {
+            QuestionDTO myQuestionDTO=new QuestionDTO();
+            myQuestionDTO.setQuestionid(question.getQuestionId());
+            myQuestionDTO.setRewardpoints(question.getRewardPoints());
+            myQuestionDTO.setQuestionheader(question.getQuestionHeader());
+            myQuestionDTO.setQuestioncontent(question.getQuestionContent());
+            myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
+            myQuestionDTO.setCreatetime(question.getCreateTime());
+            myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
+            myQuestionDTO.setHasanswerer(question.getHasAnswerer());
+            myQuestionDTOS.add(myQuestionDTO);
+        }
+        return myQuestionDTOS;
+    }
+    @Override
     public List<LikeDTO> getAllAnswerLikes(Long answerid)
     {
         List<LikeDTO> likeDTOS=new ArrayList<>();
@@ -77,6 +108,47 @@ public class QAServiceImpl implements QAService {
         }
         return likeDTOS;
     }
+    @Override
+    public List<CommentDTO> getAllAnswerComments(Long answerid)
+    {
+        List<CommentDTO> commentDTOS=new ArrayList<>();
+        CommentsExample example=new CommentsExample();
+        CommentsExample.Criteria criteria=example.createCriteria();
+        criteria.andTargetIdEqualTo(answerid);
+        List<Comments> comments=commentsMapper.selectByExampleWithBLOBs(example);
+        for(Comments comment: comments)
+        {
+            CommentDTO commentDTO=new CommentDTO();
+            commentDTO.setCommentid(comment.getCommentId());
+            commentDTO.setCommenterid(comment.getCommenterId());
+            commentDTO.setCommentcontent(comment.getCommentContent());
+            commentDTO.setTargetid(comment.getTargetId());
+            Users users= usersMapper.selectByPrimaryKey(comment.getCommenterId());
+            commentDTO.setCommentername(users.getUserName());
+            commentDTO.setCommenteravatar(users.getUserAvatar());
+            commentDTOS.add(commentDTO);
+        }
+        return commentDTOS;
+    }
+    @Override
+    public List<CollectionDTO> getAllAnswerStars(Long answerid)
+    {
+        List<CollectionDTO> collectionDTOS=new ArrayList<>();
+        AnswerCollectionsExample example=new AnswerCollectionsExample();
+        AnswerCollectionsExample.Criteria criteria= example.createCriteria();
+        criteria.andAnswerIdEqualTo(answerid);
+        List<AnswerCollections> answerCollections=answerCollectionsMapper.selectByExample(example);
+        for(AnswerCollections answerCollection: answerCollections)
+        {
+            CollectionDTO collectionDTO=new CollectionDTO();
+            collectionDTO.setCollectionid(answerCollection.getCollectionId());
+            collectionDTO.setAnswerid(answerCollection.getAnswerId());
+            collectionDTO.setUserid(answerCollection.getUserId());
+            collectionDTOS.add(collectionDTO);
+        }
+        return collectionDTOS;
+    }
+    @Override
     public List<QuestionDTO> searchByQuestion(String content)
     {
         List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
@@ -96,6 +168,7 @@ public class QAServiceImpl implements QAService {
             myQuestionDTO.setCreatetime(question.getCreateTime());
             myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
             myQuestionDTO.setHasanswerer(question.getHasAnswerer());
+            myQuestionDTOS.add(myQuestionDTO);
         }
         return myQuestionDTOS;
     }
@@ -125,9 +198,68 @@ public class QAServiceImpl implements QAService {
                 myQuestionDTO.setCreatetime(question.getCreateTime());
                 myQuestionDTO.setHasanswerer(true);
                 myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
-                if(!myQuestionDTOS.contains(myQuestionDTO))
-                myQuestionDTOS.add(myQuestionDTO);
+                if(!myQuestionDTOS.contains(myQuestionDTO)){
+                myQuestionDTOS.add(myQuestionDTO);}
             }
+        }
+        return myQuestionDTOS;
+    }
+    @Override
+    public List<QuestionDTO> getMyCollection()
+    {
+        List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
+        Long myId= Long.parseLong((String) StpUtil.getLoginId());
+        AnswerCollectionsExample example2=new AnswerCollectionsExample();
+        AnswerCollectionsExample.Criteria criteria2= example2.createCriteria();
+        criteria2.andUserIdEqualTo(myId);
+        List<AnswerCollections> answerCollections=answerCollectionsMapper.selectByExample(example2);
+        List<Answers> answers=new ArrayList<>();
+        for(AnswerCollections answerCollection:answerCollections)
+        {
+            answers.add(answersMapper.selectByPrimaryKey(answerCollection.getAnswerId()));
+        }
+        for(Answers answer:answers)
+        {
+            QuestionsExample example1=new QuestionsExample();
+            QuestionsExample.Criteria criteria1= example1.createCriteria();
+            criteria1.andQuestionIdEqualTo(answer.getQuestionId());
+            List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example1);
+            for(Questions question: questions) {
+                QuestionDTO myQuestionDTO = new QuestionDTO();
+                myQuestionDTO.setQuestionid(question.getQuestionId());
+                myQuestionDTO.setRewardpoints(question.getRewardPoints());
+                myQuestionDTO.setQuestionheader(question.getQuestionHeader());
+                myQuestionDTO.setQuestioncontent(question.getQuestionContent());
+                myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
+                myQuestionDTO.setCreatetime(question.getCreateTime());
+                myQuestionDTO.setHasanswerer(true);
+                myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
+                if(!myQuestionDTOS.contains(myQuestionDTO)){
+                    myQuestionDTOS.add(myQuestionDTO);}
+            }
+        }
+        return myQuestionDTOS;
+    }
+    @Override
+    public List<QuestionDTO> getRecommend()
+    {
+        List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
+        QuestionsExample example=new QuestionsExample();
+        QuestionsExample.Criteria criteria= example.createCriteria();
+        criteria.andHasAnswererEqualTo(true).andHasAdoptedAnswerEqualTo(true);
+        List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example);
+        for(Questions question: questions)
+        {
+            QuestionDTO myQuestionDTO=new QuestionDTO();
+            myQuestionDTO.setQuestionid(question.getQuestionId());
+            myQuestionDTO.setRewardpoints(question.getRewardPoints());
+            myQuestionDTO.setQuestionheader(question.getQuestionHeader());
+            myQuestionDTO.setQuestioncontent(question.getQuestionContent());
+            myQuestionDTO.setQuestionaskerid(question.getQuestionAskerId());
+            myQuestionDTO.setCreatetime(question.getCreateTime());
+            myQuestionDTO.setHasadoptedanswer(question.getHasAdoptedAnswer());
+            myQuestionDTO.setHasanswerer(question.getHasAnswerer());
+            myQuestionDTOS.add(myQuestionDTO);
         }
         return myQuestionDTOS;
     }
@@ -201,6 +333,7 @@ public class QAServiceImpl implements QAService {
         Date date = new Date();
         Timestamp timestamp=new Timestamp(date.getTime());
         answers.setCreateTime(timestamp);
+        answers.setHasComment(false);
         answersMapper.insert(answers);
         return  answers;
     }
@@ -216,6 +349,33 @@ public class QAServiceImpl implements QAService {
         return  answers;
     }
     @Override
+    public Comments makeComment(Long answerid,String content)
+    {
+        Answers answers=answersMapper.selectByPrimaryKey(answerid);
+        answers.setHasComment(true);
+        answersMapper.updateByPrimaryKey(answers);
+        Comments comments=new Comments();
+        comments.setCommentId(YitIdHelper.nextId());
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        comments.setCommenterId(myId);
+        comments.setCommentContent(content);
+        comments.setTargetId(answerid);
+        commentsMapper.insert(comments);
+        return  comments;
+    }
+    @Override
+    public List<CollectionDTO> clickStar(Long answerid)
+    {
+        AnswerCollections answerCollections=new AnswerCollections();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        answerCollections.setCollectionId(YitIdHelper.nextId());
+        answerCollections.setAnswerId(answerid);
+        answerCollections.setUserId(myId);
+        answerCollectionsMapper.insert(answerCollections);
+        List<CollectionDTO> collectionDTOS=getAllAnswerStars(answerid);
+        return collectionDTOS;
+    }
+    @Override
     public List<LikeDTO> clickLike(Long answerid)
     {
         Likes likes=new Likes();
@@ -226,6 +386,18 @@ public class QAServiceImpl implements QAService {
         likesMapper.insert(likes);
         List<LikeDTO> likeDTOS=getAllAnswerLikes(answerid);
         return likeDTOS;
+    }
+    @Override
+    public List<CollectionDTO> undoStar(Long answerid)
+    {
+        AnswerCollections answerCollections=new AnswerCollections();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        AnswerCollectionsExample example=new AnswerCollectionsExample();
+        AnswerCollectionsExample.Criteria criteria=example.createCriteria();
+        criteria.andAnswerIdEqualTo(answerid).andUserIdEqualTo(myId);
+        answerCollectionsMapper.deleteByExample(example);
+        List<CollectionDTO> collectionDTOS=getAllAnswerStars(answerid);
+        return collectionDTOS;
     }
     @Override
     public List<LikeDTO> undoLike(Long answerid)
@@ -249,7 +421,7 @@ public class QAServiceImpl implements QAService {
         AnswersExample.Criteria criteria= example.createCriteria();
         criteria.andQuestionIdEqualTo(questionid);
         Long myId=Long.parseLong((String) StpUtil.getLoginId());
-        PageHelper.startPage(1,2);
+        PageHelper.startPage(1,5);
         List<Answers> answers=answersMapper.selectByExampleWithBLOBs(example);
         for(Answers answer:answers)
         {
@@ -266,16 +438,81 @@ public class QAServiceImpl implements QAService {
             List<LikeDTO> likeDTOS=getAllAnswerLikes(answer.getAnswerId());
             for(LikeDTO likeDTO:likeDTOS)
             {
-                if(likeDTO.getUserid()==myId)
+                if(likeDTO.getUserid().equals(myId))
                 {
                     answerDTO.setIsliked(true);
                     break;
                 }
             }
             answerDTO.setLikenum(likeDTOS.size());
+            List<CollectionDTO> collectionDTOS=getAllAnswerStars(answer.getAnswerId());
+            for(CollectionDTO collectionDTO:collectionDTOS)
+            {
+                if(collectionDTO.getUserid().equals(myId))
+                {
+                    answerDTO.setIsStared(true);
+                    break;
+                }
+            }
+            answerDTO.setStarnum(collectionDTOS.size());
+            List<CommentDTO> commentDTOS=getAllAnswerComments(answer.getAnswerId());
+            if(commentDTOS.size()!=0)
+            {
+                answerDTO.setHascomment(true);
+            }
+            else {
+                answerDTO.setHascomment(false);
+            }
+            answerDTO.setCommentnum(commentDTOS.size());
             answerDTOS.add(answerDTO);
         }
         return answerDTOS;
+    }
+    @Override
+    public AnswerDTO getAnswerById(Long answerid)
+    {
+        Answers answer=answersMapper.selectByPrimaryKey(answerid);
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        AnswerDTO answerDTO=new AnswerDTO();
+        answerDTO.setAdopted(answer.getAdopted());
+        answerDTO.setQuestionid(answer.getQuestionId());
+        answerDTO.setAnswercontent(answer.getAnswerContent());
+        answerDTO.setAnswerid(answer.getAnswerId());
+        answerDTO.setAnswererid(answer.getAnswererId());
+        answerDTO.setCreatetime(answer.getCreateTime());
+        Users users = usersMapper.selectByPrimaryKey(answerDTO.getAnswererid());
+        answerDTO.setAnswerername(users.getUserName());
+        answerDTO.setAnswereravatar(users.getUserAvatar());
+        List<LikeDTO> likeDTOS=getAllAnswerLikes(answer.getAnswerId());
+        for(LikeDTO likeDTO:likeDTOS)
+        {
+            if(likeDTO.getUserid().equals(myId))
+            {
+                answerDTO.setIsliked(true);
+                break;
+            }
+        }
+        answerDTO.setLikenum(likeDTOS.size());
+        List<CollectionDTO> collectionDTOS=getAllAnswerStars(answer.getAnswerId());
+        for(CollectionDTO collectionDTO:collectionDTOS)
+        {
+            if(collectionDTO.getUserid().equals(myId))
+            {
+                answerDTO.setIsStared(true);
+                break;
+            }
+        }
+            answerDTO.setStarnum(collectionDTOS.size());
+            List<CommentDTO> commentDTOS=getAllAnswerComments(answer.getAnswerId());
+            if(commentDTOS.size()!=0)
+            {
+                answerDTO.setHascomment(true);
+            }
+            else {
+                answerDTO.setHascomment(false);
+            }
+            answerDTO.setCommentnum(commentDTOS.size());
+        return answerDTO;
     }
     @Override
     public List<TagDTO>getTags(Long questionid)

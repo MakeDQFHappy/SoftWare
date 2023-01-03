@@ -14,6 +14,8 @@ public class Answers implements Serializable {
 
     private Date createTime;
 
+    private Boolean hasComment;
+
     private String answerContent;
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +60,14 @@ public class Answers implements Serializable {
         this.createTime = createTime;
     }
 
+    public Boolean getHasComment() {
+        return hasComment;
+    }
+
+    public void setHasComment(Boolean hasComment) {
+        this.hasComment = hasComment;
+    }
+
     public String getAnswerContent() {
         return answerContent;
     }
@@ -77,6 +87,7 @@ public class Answers implements Serializable {
         sb.append(", questionId=").append(questionId);
         sb.append(", adopted=").append(adopted);
         sb.append(", createTime=").append(createTime);
+        sb.append(", hasComment=").append(hasComment);
         sb.append(", answerContent=").append(answerContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
