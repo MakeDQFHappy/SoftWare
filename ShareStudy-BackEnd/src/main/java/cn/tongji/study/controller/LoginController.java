@@ -41,6 +41,24 @@ public class LoginController {
         }
     }
 
+    @GetMapping("email")
+    public ResponseEntity<LoginDTO> userEmailLogin(
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "password") String password
+    ){
+        try {
+            LoginDTO loginDTO = loginService.emailLogin(email, password);
+            if(loginDTO!=null){
+                return ResponseEntity.ok(loginDTO);
+            }
+            else {
+                return ResponseEntity.status(403).body(null);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @GetMapping("logout")
     public ResponseEntity<String> userLogout(
             @RequestParam(value = "id") Long id

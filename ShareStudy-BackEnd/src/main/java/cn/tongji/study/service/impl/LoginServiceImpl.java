@@ -61,6 +61,41 @@ public class LoginServiceImpl implements LoginService {
         return loginDTO;
     }
 
+    @Override
+    public LoginDTO emailLogin(String email, String password) {
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria=example.createCriteria();
+        criteria.andEmailEqualTo(email);
+        criteria.andPasswordEqualTo(password);
+        List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
+        if(users.size()==0){
+            return null;
+        }
+        StpUtil.login(users.get(0).getUserId());
+        TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+        TimeZone.setDefault(time);
+        Date date = new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
+        LoginDTO loginDTO=new LoginDTO();
+        if(users.get(0).getLastLoginTime()==null||checkFirst(timestamp,users.get(0).getLastLoginTime())){
+            loginDTO.setIsFirst(true);
+        }
+        else{
+            loginDTO.setIsFirst(false);
+        }
+        users.get(0).setLastLoginTime(timestamp);
+        usersMapper.updateByPrimaryKey(users.get(0));
+        loginDTO.setUserAvatar(users.get(0).getUserAvatar());
+        loginDTO.setUserId(users.get(0).getUserId());
+        loginDTO.setUserToken(StpUtil.getTokenValue());
+        loginDTO.setAge(users.get(0).getBirthYear());
+        loginDTO.setSex(users.get(0).getSex());
+        loginDTO.setBonusPoints(users.get(0).getBonusPoints());
+        loginDTO.setUserName(users.get(0).getUserName());
+        loginDTO.setUserType(users.get(0).getUserType());
+        return loginDTO;
+    }
+
     public Boolean checkFirst(Timestamp nowDate, Date lastDate){
         SimpleDateFormat sdfLogin = new SimpleDateFormat("yyyy-MM-dd");
         String now = sdfLogin.format(nowDate);

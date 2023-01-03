@@ -26,6 +26,7 @@ public interface FriendService {
 
     List<SearchUserDTO> searchUser(String searchInfo);
 
+    List<SearchUserDTO> recommandFriends(int page,int size);
 
     List<MyFriendDTO> getMyFriend();
 

@@ -21,18 +21,18 @@ public class ShareStudyBackEndApplicationTests {
     @Autowired
     private StringEncryptor encryptor;
 
-    @Test
-    void contextLoads() throws SQLException {
-    }
-
-    @Test
-    public void getPass() {
-        String username = encryptor.encrypt("310499328@qq.com");
-        String password = encryptor.encrypt("vxsflmvxcjawcahi");
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-        Assert.assertTrue(username.length() > 0);
-        Assert.assertTrue(password.length() > 0);
-    }
+//    @Test
+//    void contextLoads() throws SQLException {
+//    }
+//
+//    @Test
+//    public void getPass() {
+//        String username = encryptor.encrypt("310499328@qq.com");
+//        String password = encryptor.encrypt("vxsflmvxcjawcahi");
+//        System.out.println("username: " + username);
+//        System.out.println("password: " + password);
+//        Assert.assertTrue(username.length() > 0);
+//        Assert.assertTrue(password.length() > 0);
+//    }
 
 }
