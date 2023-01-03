@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class ShareStudyBackEndApplicationTests {
+public class ShareStudyBackEndApplicationTests {
 
     @Autowired
     DataSource dataSource;
@@ -27,18 +27,12 @@ class ShareStudyBackEndApplicationTests {
 
     @Test
     public void getPass() {
-        String endpoint = encryptor.encrypt("endpoint");
-        String bucketname = encryptor.encrypt("bucketname");
-        String keyid = encryptor.encrypt("keyid");
-        String keysecret = encryptor.encrypt("keysecret");
-        System.out.println("endpoint: " + endpoint);
-        System.out.println("bucketname: " + bucketname);
-        System.out.println("keyid: " + keyid);
-        System.out.println("keysecret: " + keysecret);
-        Assert.assertTrue(endpoint.length() > 0);
-        Assert.assertTrue(bucketname.length() > 0);
-        Assert.assertTrue(keyid.length() > 0);
-        Assert.assertTrue(keysecret.length() > 0);
+        String username = encryptor.encrypt("310499328@qq.com");
+        String password = encryptor.encrypt("vxsflmvxcjawcahi");
+        System.out.println("username: " + username);
+        System.out.println("password: " + password);
+        Assert.assertTrue(username.length() > 0);
+        Assert.assertTrue(password.length() > 0);
     }
 
 }
