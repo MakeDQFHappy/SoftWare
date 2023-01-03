@@ -1,5 +1,6 @@
 package cn.tongji.study.controller;
 
+import cn.tongji.study.dto.RegisterDTO;
 import cn.tongji.study.service.RegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +36,30 @@ public class RegisterController {
         }
     }
 
+    @GetMapping("getCode")
+    public ResponseEntity<String> getCode(
+            @RequestParam(value = "email") String email
+    ){
+        try {
+            return ResponseEntity.ok(registerService.sendEmail(email));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+
+    @PostMapping("finalInsert")
+    public ResponseEntity<String> register(
+            @RequestBody RegisterDTO registerDTO
+    ){
+        try {
+            registerService.insertUser(registerDTO);
+            return ResponseEntity.ok("注册用户成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("注册用户失败");
+        }
+    }
 
 }
