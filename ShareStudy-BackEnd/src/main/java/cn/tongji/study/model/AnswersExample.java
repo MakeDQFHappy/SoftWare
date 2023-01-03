@@ -404,6 +404,66 @@ public class AnswersExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andHasCommentIsNull() {
+            addCriterion("has_comment is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentIsNotNull() {
+            addCriterion("has_comment is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentEqualTo(Boolean value) {
+            addCriterion("has_comment =", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentNotEqualTo(Boolean value) {
+            addCriterion("has_comment <>", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentGreaterThan(Boolean value) {
+            addCriterion("has_comment >", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("has_comment >=", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentLessThan(Boolean value) {
+            addCriterion("has_comment <", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentLessThanOrEqualTo(Boolean value) {
+            addCriterion("has_comment <=", value, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentIn(List<Boolean> values) {
+            addCriterion("has_comment in", values, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentNotIn(List<Boolean> values) {
+            addCriterion("has_comment not in", values, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_comment between", value1, value2, "hasComment");
+            return (Criteria) this;
+        }
+
+        public Criteria andHasCommentNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("has_comment not between", value1, value2, "hasComment");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

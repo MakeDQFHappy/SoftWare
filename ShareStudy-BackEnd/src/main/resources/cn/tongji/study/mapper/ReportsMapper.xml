@@ -5,6 +5,10 @@
     <id column="report_id" jdbcType="BIGINT" property="reportId" />
     <result column="reporter_id" jdbcType="BIGINT" property="reporterId" />
     <result column="target_id" jdbcType="BIGINT" property="targetId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="reply" jdbcType="VARCHAR" property="reply" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    report_id, reporter_id, target_id
+    report_id, reporter_id, target_id, create_time, status, reply, content
   </sql>
   <select id="selectByExample" parameterType="cn.tongji.study.model.ReportsExample" resultMap="BaseResultMap">
     select
@@ -98,10 +102,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.tongji.study.model.Reports">
-    insert into reports (report_id, reporter_id, target_id
-      )
-    values (#{reportId,jdbcType=BIGINT}, #{reporterId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}
-      )
+    insert into reports (report_id, reporter_id, target_id, 
+      create_time, status, reply, 
+      content)
+    values (#{reportId,jdbcType=BIGINT}, #{reporterId,jdbcType=BIGINT}, #{targetId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{reply,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.tongji.study.model.Reports">
     insert into reports
@@ -115,6 +121,18 @@
       <if test="targetId != null">
         target_id,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="reply != null">
+        reply,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="reportId != null">
@@ -125,6 +143,18 @@
       </if>
       <if test="targetId != null">
         #{targetId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -146,6 +176,18 @@
       <if test="record.targetId != null">
         target_id = #{record.targetId,jdbcType=BIGINT},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.reply != null">
+        reply = #{record.reply,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +197,11 @@
     update reports
     set report_id = #{record.reportId,jdbcType=BIGINT},
       reporter_id = #{record.reporterId,jdbcType=BIGINT},
-      target_id = #{record.targetId,jdbcType=BIGINT}
+      target_id = #{record.targetId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=INTEGER},
+      reply = #{record.reply,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +215,29 @@
       <if test="targetId != null">
         target_id = #{targetId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="reply != null">
+        reply = #{reply,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
     </set>
     where report_id = #{reportId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.tongji.study.model.Reports">
     update reports
     set reporter_id = #{reporterId,jdbcType=BIGINT},
-      target_id = #{targetId,jdbcType=BIGINT}
+      target_id = #{targetId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      reply = #{reply,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR}
     where report_id = #{reportId,jdbcType=BIGINT}
   </update>
 </mapper>

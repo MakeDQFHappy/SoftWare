@@ -141,6 +141,9 @@ public class FriendServiceImpl implements FriendService {
         UsersExample example=new UsersExample();
         UsersExample.Criteria criteria=example.createCriteria();
         criteria.andUserNameLike("%"+searchInfo+"%");
+        if(searchInfo.length()>=5){
+            UsersExample.Criteria criteria1 = example.or();
+        }
         List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
         List<SearchUserDTO> searchUserDTOS = new ArrayList<>();
         List<Long> myFriendsId = getMyFriendsId();
