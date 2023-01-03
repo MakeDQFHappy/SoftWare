@@ -281,6 +281,7 @@ public class QAServiceImpl implements QAService {
         questions.setHasAnswerer(false);
         if(tag1!="")
         {
+
             Tags tags=new Tags();
             tags.setValue(tag1);
             tags.setTagId(YitIdHelper.nextId());

@@ -1,5 +1,5 @@
 server:
-  port: 10100
+  port: 10010
 
 spring:
   datasource:
@@ -51,7 +51,7 @@ spring:
   mail:
     host: smtp.qq.com
     username: 310499328@qq.com
-    password: vxsflmvxcjawcahi
+    password: qoahymhwwogabich
     properties:
       mail:
         smtp:
