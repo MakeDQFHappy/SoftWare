@@ -246,6 +246,7 @@ public class QAServiceImpl implements QAService {
         List<QuestionDTO> myQuestionDTOS=new ArrayList<>();
         QuestionsExample example=new QuestionsExample();
         QuestionsExample.Criteria criteria= example.createCriteria();
+        criteria.andCreateTimeIsNotNull();
         example.setOrderByClause ("create_time desc");
         List<Questions> questions=questionsMapper.selectByExampleWithBLOBs(example);
         for(Questions question: questions)
