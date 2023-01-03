@@ -10,4 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LoginService {
     LoginDTO academicLogin(String academicNum,String password);
+
+    LoginDTO emailLogin(String email,String password);
 }

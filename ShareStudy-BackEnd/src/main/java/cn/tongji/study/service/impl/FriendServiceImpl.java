@@ -4,9 +4,11 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.tongji.study.dto.MyFriendDTO;
 import cn.tongji.study.dto.ReceiveFriendReqDTO;
 import cn.tongji.study.dto.SearchUserDTO;
+import cn.tongji.study.dto.UserInfoDTO;
 import cn.tongji.study.mapper.*;
 import cn.tongji.study.model.*;
 import cn.tongji.study.service.FriendService;
+import com.github.pagehelper.PageHelper;
 import com.github.yitter.idgen.YitIdHelper;
 import org.springframework.stereotype.Service;
 
@@ -159,6 +161,30 @@ public class FriendServiceImpl implements FriendService {
                 searchUserDTOS.add(searchUserDTO);
             }
         }
+        return searchUserDTOS;
+    }
+
+    @Override
+    public List<SearchUserDTO> recommandFriends(int page,int size) {
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria = example.createCriteria();
+        example.setOrderByClause("user_id DESC");
+        List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
+        List<SearchUserDTO> searchUserDTOS = new ArrayList<>();
+        List<Long> myFriendsId = getMyFriendsId();
+        Long myId=Long.parseLong((String)StpUtil.getLoginId());
+        for (Users user:users) {
+            if(!myFriendsId.contains(user.getUserId())&&!user.getUserId().equals(myId)){
+                SearchUserDTO searchUserDTO=new SearchUserDTO();
+                searchUserDTO.setUserName(user.getUserName());
+                searchUserDTO.setSex(user.getSex());
+                searchUserDTO.setAge(user.getBirthYear());
+                searchUserDTO.setUserAvatar(user.getUserAvatar());
+                searchUserDTO.setUserId(user.getUserId());
+                searchUserDTOS.add(searchUserDTO);
+            }
+        }
+        PageHelper.startPage(page*size,size);
         return searchUserDTOS;
     }
 

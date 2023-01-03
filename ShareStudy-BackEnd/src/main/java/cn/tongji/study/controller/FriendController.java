@@ -112,6 +112,19 @@ public class FriendController {
         }
     }
 
+    @GetMapping("recommandFriends")
+    public ResponseEntity<List<SearchUserDTO>> recommandFriends(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size
+    ){
+        try {
+            return ResponseEntity.ok(friendService.recommandFriends(page,size));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+
     @GetMapping("getMyFriends")
     public ResponseEntity<List<MyFriendDTO>> getMyFriends(){
         try {
