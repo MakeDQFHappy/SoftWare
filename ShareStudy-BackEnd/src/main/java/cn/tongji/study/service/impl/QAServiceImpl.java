@@ -429,7 +429,12 @@ public class QAServiceImpl implements QAService {
             AnswerDTO answerDTO=new AnswerDTO();
             answerDTO.setAdopted(answer.getAdopted());
             answerDTO.setQuestionid(answer.getQuestionId());
-            answerDTO.setAnswercontent(answer.getAnswerContent());
+            if(answer.getAnswerContent().length()<=100) {
+                answerDTO.setAnswercontent(answer.getAnswerContent());
+            }
+            else {
+                answerDTO.setAnswercontent(answer.getAnswerContent().substring(0,99));
+            }
             answerDTO.setAnswerid(answer.getAnswerId());
             answerDTO.setAnswererid(answer.getAnswererId());
             answerDTO.setCreatetime(answer.getCreateTime());
