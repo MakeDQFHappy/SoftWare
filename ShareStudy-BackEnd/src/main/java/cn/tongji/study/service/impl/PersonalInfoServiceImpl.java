@@ -49,4 +49,21 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
         userInfoDTO.setBonusPoints(users.getBonusPoints());
         return userInfoDTO;
     }
+
+    @Override
+    public Boolean updateUserInfo(String userName, Integer age, String sex) {
+        if(userName==null || age == null||sex == null){
+            return false;
+        }
+        if(userName.length()>20){
+            return false;
+        }
+        Long myId=Long.parseLong((String)StpUtil.getLoginId());
+        Users users = usersMapper.selectByPrimaryKey(myId);
+        users.setUserName(userName);
+        users.setBirthYear(age);
+        users.setSex(sex);
+        usersMapper.updateByPrimaryKey(users);
+        return true;
+    }
 }

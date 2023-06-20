@@ -14,4 +14,6 @@ public interface PersonalInfoService {
     Integer updateBonusPoints(Integer updateNum);
 
     UserInfoDTO getUserInfo(Long userId);
+
+    Boolean updateUserInfo(String userName,Integer age,String sex);
 }

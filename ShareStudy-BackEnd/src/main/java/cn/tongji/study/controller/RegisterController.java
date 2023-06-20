@@ -54,7 +54,9 @@ public class RegisterController {
             @RequestBody RegisterDTO registerDTO
     ){
         try {
-            registerService.insertUser(registerDTO);
+            if(!registerService.insertUser(registerDTO)){
+                return ResponseEntity.status(403).body("注册用户失败");
+            }
             return ResponseEntity.ok("注册用户成功");
         }catch (Exception e){
             e.printStackTrace();

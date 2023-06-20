@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author : 王晨
@@ -38,6 +40,20 @@ public class PersonalInfoController {
         }
     }
 
+    @PostMapping("uploadImage")
+    public ResponseEntity<Map<String,Object>>uploadImage(
+            @RequestPart MultipartFile file
+    ){
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            String image = ossService.uploadFile(file);
+            map.put("url",image);
+            return ResponseEntity.ok(map);
+        }catch (Exception e){
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+
     @PostMapping("updateBonusPoints")
     public ResponseEntity<Integer>updateBonusPoints(
             @RequestParam("changeNum") Integer changeNum
@@ -56,6 +72,25 @@ public class PersonalInfoController {
     ){
         try {
             return ResponseEntity.ok(personalInfoService.getUserInfo(userId));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+
+    @PutMapping("updateUserInfo")
+    public ResponseEntity<String>updateUserInfo(
+            @RequestBody Map<String,Object> data
+    ){
+        System.out.println(data);
+        String userName= (String) data.get("userName");
+        String sex=(String)data.get("sex");
+        Integer age= Integer.parseInt((String)data.get("age"));
+        try {
+            if(!personalInfoService.updateUserInfo(userName,age,sex)){
+                return ResponseEntity.status(403).body(null);
+            }
+            return ResponseEntity.ok("更改用户信息成功");
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

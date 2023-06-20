@@ -176,7 +176,7 @@ public class ShareStudyController {
             @RequestBody Map<String,Object> mp
     ){
         try {
-            String url = "http://1.15.47.174:8000/chargePoints";
+            String url = "http://1.15.47.174:8000/charge_points";
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
             Object loginId = StpUtil.getLoginId();

@@ -3,9 +3,12 @@ server:
 
 spring:
   datasource:
-    url: ENC(eWc1T1yPeaYyItQMFobN+CIFPtFqCcZ+D7XwnonV+Mq14oPtL09zkVC8PTa1LyelYkE1eJYdz1EZkiqH8B1KlEVmNSnk31x+51O0QEtAaf1HVSrm1CeqhrKVMLaNWzACOklYg5Kddq3iUN1X+JldXdIb9RSI3k8j)
-    username: ENC(s4fiAU8BzrLUOIrkVths27+cFHvPLHhN)
-    password: ENC(MauO4NGB9Rf1GO9i7A7igHy/xKzH85eQ)
+#    url: ENC(eWc1T1yPeaYyItQMFobN+CIFPtFqCcZ+D7XwnonV+Mq14oPtL09zkVC8PTa1LyelYkE1eJYdz1EZkiqH8B1KlEVmNSnk31x+51O0QEtAaf1HVSrm1CeqhrKVMLaNWzACOklYg5Kddq3iUN1X+JldXdIb9RSI3k8j)
+#    username: ENC(s4fiAU8BzrLUOIrkVths27+cFHvPLHhN)
+#    password: ENC(MauO4NGB9Rf1GO9i7A7igHy/xKzH85eQ)
+    url: jdbc:mysql://47.103.94.33:3306/test_db?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: 'daijiawei'
+    password: 'douyu93589'
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 

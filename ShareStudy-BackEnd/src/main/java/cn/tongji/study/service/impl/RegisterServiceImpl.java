@@ -91,8 +91,31 @@ public class RegisterServiceImpl implements RegisterService {
         return varifications.size()!=0;
     }
 
+    public Boolean verifyEmail(String email) {
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria=example.createCriteria();
+        criteria.andEmailEqualTo(email);
+        List<Users> users = usersMapper.selectByExample(example);
+        return users.size() == 0;
+    }
+
     @Override
-    public void insertUser(RegisterDTO registerDTO) {
+    public Boolean insertUser(RegisterDTO registerDTO) {
+        if(academicExist(registerDTO.getAcademicNumber())){
+            return false;
+        }
+        if(!verifyAcademicNumber(registerDTO.getAcademicNumber(),registerDTO.getRealName())){
+            return false;
+        }
+        if(registerDTO.getUserName()==null||registerDTO.getSex()==null||registerDTO.getEmail()==null||registerDTO.getBirthYear()==null){
+            return false;
+        }
+        if(registerDTO.getUserName().length()>20){
+            return false;
+        }
+        if(!verifyEmail(registerDTO.getEmail())){
+            return false;
+        }
         Users users=new Users();
         users.setUserId(YitIdHelper.nextId());
         users.setAcademicNumber(registerDTO.getAcademicNumber());
@@ -111,5 +134,6 @@ public class RegisterServiceImpl implements RegisterService {
         Timestamp timestamp=new Timestamp(date.getTime());
         users.setCreatedTime(timestamp);
         usersMapper.insert(users);
+        return true;
     }
 }

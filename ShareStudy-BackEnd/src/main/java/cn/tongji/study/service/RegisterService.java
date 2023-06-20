@@ -12,6 +12,7 @@ public interface RegisterService {
     Boolean academicExist(String academicNumber);
     String sendEmail(String toEmail);
     Boolean verifyAcademicNumber(String academicNumber,String name);
-    void insertUser(RegisterDTO registerDTO);
+
+    Boolean insertUser(RegisterDTO registerDTO);
 
 }
