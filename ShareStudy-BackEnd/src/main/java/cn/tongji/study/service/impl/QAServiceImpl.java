@@ -378,6 +378,31 @@ public class QAServiceImpl implements QAService {
         return collectionDTOS;
     }
     @Override
+    public Boolean clickStarTest(Long userid,Long answerid)
+    {
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria=example.createCriteria();
+        criteria.andUserIdEqualTo(userid);
+        List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
+        if(users.size()==0){
+            return false;
+        }
+        AnswersExample example1=new AnswersExample();
+        AnswersExample.Criteria criteria1=example1.createCriteria();
+        criteria1.andAnswererIdEqualTo(answerid);
+        List<Answers> answers = answersMapper.selectByExampleWithBLOBs(example1);
+        if(answers.size()==0){
+            return false;
+        }
+        AnswerCollections answerCollections=new AnswerCollections();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        answerCollections.setCollectionId(YitIdHelper.nextId());
+        answerCollections.setAnswerId(answerid);
+        answerCollections.setUserId(myId);
+        answerCollectionsMapper.insert(answerCollections);
+        return true;
+    }
+    @Override
     public List<LikeDTO> clickLike(Long answerid)
     {
         Likes likes=new Likes();
@@ -388,6 +413,31 @@ public class QAServiceImpl implements QAService {
         likesMapper.insert(likes);
         List<LikeDTO> likeDTOS=getAllAnswerLikes(answerid);
         return likeDTOS;
+    }
+    @Override
+    public Boolean clickLikeTest(Long userid,Long answerid)
+    {
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria=example.createCriteria();
+        criteria.andUserIdEqualTo(userid);
+        List<Users> users = usersMapper.selectByExampleWithBLOBs(example);
+        if(users.size()==0){
+            return false;
+        }
+        AnswersExample example1=new AnswersExample();
+        AnswersExample.Criteria criteria1=example1.createCriteria();
+        criteria1.andAnswererIdEqualTo(answerid);
+        List<Answers> answers = answersMapper.selectByExampleWithBLOBs(example1);
+        if(answers.size()==0){
+            return false;
+        }
+        Likes likes=new Likes();
+        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        likes.setLikeId(YitIdHelper.nextId());
+        likes.setTargetId(answerid);
+        likes.setUserId(myId);
+        likesMapper.insert(likes);
+        return true;
     }
     @Override
     public List<CollectionDTO> undoStar(Long answerid)

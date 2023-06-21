@@ -94,6 +94,22 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
+    @PostMapping("clickLikeTset")
+    public  ResponseEntity<String>clickLikeTest(
+            @RequestParam(value = "userid") Long userid,
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            if (QAservice.clickLikeTest(userid,answerid)==false)
+                return ResponseEntity.status(402).body("fail");
+            else
+                return ResponseEntity.status(200).body("success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
     @PostMapping("clickLike")
     public  ResponseEntity<List<LikeDTO>>clickLike(
             @RequestParam(value = "answerid") Long answerid
@@ -125,6 +141,22 @@ public class QAController {
     {
         try {
             return ResponseEntity.ok(QAservice.clickStar(answerid));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(null);
+        }
+    }
+    @PostMapping("clickStarTest")
+    public  ResponseEntity<String>clickStarTest(
+            @RequestParam(value = "userid") Long userid,
+            @RequestParam(value = "answerid") Long answerid
+    )
+    {
+        try {
+            if (QAservice.clickStarTest(userid,answerid)==false)
+                return ResponseEntity.status(402).body("fail");
+            else
+                return ResponseEntity.status(200).body("success");
         }catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(401).body(null);

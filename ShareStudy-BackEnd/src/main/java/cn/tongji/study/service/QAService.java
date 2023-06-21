@@ -28,12 +28,14 @@ public interface QAService {
     List<LikeDTO> getAllAnswerLikes(Long answerid);
     @CachePut(key="'like'+#answerid",value="answer_like")
     List<LikeDTO> clickLike(Long answerid);
+    Boolean clickLikeTest(Long userid,Long answerid);
     @CachePut(key="'like'+#answerid",value="answer_like")
     List<LikeDTO> undoLike(Long answerid);
     @Cacheable(key="'star'+#answerid", unless = "#result==null",value="answer_star")
     List<CollectionDTO> getAllAnswerStars(Long answerid);
     @CachePut(key="'star'+#answerid",value="answer_star")
     List<CollectionDTO> clickStar(Long answerid);
+    Boolean clickStarTest(Long userid,Long answerid);
     @CachePut(key="'star'+#answerid",value="answer_star")
     List<CollectionDTO> undoStar(Long answerid);
 //    @Cacheable(key="'comment'+#answerid", unless = "#result==null",value="answer_comment")

@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="a468b616-1403-46e4-ae17-6842897c399f" name="变更" comment="" />
+    <list default="true" id="a468b616-1403-46e4-ae17-6842897c399f" name="变更" comment="变更">
+      <change afterPath="$PROJECT_DIR$/.idea/SoftWare_backend.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,11 +31,61 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false"
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Diffblue Cover.Write tests for class LoginServiceImpl">
+    <configuration name="Write tests for class LoginServiceImpl" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration">
+      <module name="SoftWare_backend" />
+      <settings run-config-name="Write tests for class LoginServiceImpl" include-system-env-vars="true">
+        <jvm-args />
+        <selection-scope>class</selection-scope>
+        <selected-element key="cn.tongji.study.service.impl.LoginServiceImpl" />
+      </settings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Write tests for class PersonalInfoService" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="SoftWare_backend" />
+      <settings run-config-name="Write tests for class PersonalInfoService" include-system-env-vars="true">
+        <jvm-args />
+        <selection-scope>class</selection-scope>
+        <selected-element key="cn.tongji.study.service.PersonalInfoService" />
+      </settings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Write tests for class PersonalInfoServiceImpl" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration">
+      <module name="SoftWare_backend" />
+      <settings run-config-name="Write tests for class PersonalInfoServiceImpl" include-system-env-vars="true">
+        <jvm-args />
+        <selection-scope>class</selection-scope>
+        <selected-element key="cn.tongji.study.service.impl.PersonalInfoServiceImpl" />
+      </settings>
+      <method v="2" />
+    </configuration>
+    <configuration name="Write tests for prefix unknown" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration">
+      <module name="SoftWare_backend" />
+      <settings run-config-name="Write tests for prefix unknown" include-system-env-vars="true">
+        <jvm-args />
+        <selection-scope>prefix</selection-scope>
+      </settings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Diffblue Cover.Write tests for class PersonalInfoService" />
+        <item itemvalue="Diffblue Cover.Write tests for class PersonalInfoServiceImpl" />
+        <item itemvalue="Diffblue Cover.Write tests for prefix unknown" />
+        <item itemvalue="Diffblue Cover.Write tests for class LoginServiceImpl" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -34,6 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1668422245793</updated>
       <workItem from="1668422260742" duration="25000" />
+      <workItem from="1687326822815" duration="70000" />
     </task>
     <servers />
   </component>
