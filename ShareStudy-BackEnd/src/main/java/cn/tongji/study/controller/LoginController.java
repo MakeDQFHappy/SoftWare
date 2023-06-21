@@ -49,6 +49,7 @@ public class LoginController {
         try {
             LoginDTO loginDTO = loginService.emailLogin(email, password);
             if(loginDTO!=null){
+                StpUtil.login(loginDTO.getUserId());
                 return ResponseEntity.ok(loginDTO);
             }
             else {
