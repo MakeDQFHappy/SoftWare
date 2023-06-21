@@ -94,7 +94,7 @@ public class QAController {
             return ResponseEntity.status(401).body(null);
         }
     }
-    @PostMapping("clickLikeTset")
+    @PostMapping("clickLikeTest")
     public  ResponseEntity<String>clickLikeTest(
             @RequestParam(value = "userid") Long userid,
             @RequestParam(value = "answerid") Long answerid

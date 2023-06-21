@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a468b616-1403-46e4-ae17-6842897c399f" name="变更" comment="变更">
-      <change afterPath="$PROJECT_DIR$/.idea/SoftWare_backend.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ShareStudy-BackEnd/src/main/java/cn/tongji/study/controller/QAController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ShareStudy-BackEnd/src/main/java/cn/tongji/study/controller/QAController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ShareStudy-BackEnd/src/main/java/cn/tongji/study/service/impl/QAServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ShareStudy-BackEnd/src/main/java/cn/tongji/study/service/impl/QAServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ShareStudy-BackEnd/src/test/java/cn/tongji/study/service/impl/RegisterServiceImplTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,18 +25,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Diffblue Cover.Write tests for class LoginServiceImpl">
     <configuration name="Write tests for class LoginServiceImpl" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration">
       <module name="SoftWare_backend" />
@@ -96,6 +92,7 @@
       <updated>1668422245793</updated>
       <workItem from="1668422260742" duration="25000" />
       <workItem from="1687326822815" duration="70000" />
+      <workItem from="1687334596485" duration="101000" />
     </task>
     <servers />
   </component>
