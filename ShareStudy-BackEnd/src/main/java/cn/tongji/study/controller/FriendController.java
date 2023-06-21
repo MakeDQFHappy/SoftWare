@@ -38,6 +38,23 @@ public class FriendController {
         }
     }
 
+    @PostMapping("sendRequest")
+    public ResponseEntity<String> sendFriendRequest(
+            @RequestParam(value = "senderId") Long senderId,
+            @RequestParam(value = "receiverId") Long receiverId,
+            @RequestParam(value = "introduction") String introduction
+    ){
+        try {
+            if(!friendService.sendFriendRequest(senderId,introduction,receiverId)){
+                return ResponseEntity.status(403).body("发送失败");
+            }
+            return ResponseEntity.ok("发送成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("发送失败");
+        }
+    }
+
     @GetMapping("getReq")
     public ResponseEntity<List<ReceiveFriendReqDTO>> getFriendReq(){
         try {

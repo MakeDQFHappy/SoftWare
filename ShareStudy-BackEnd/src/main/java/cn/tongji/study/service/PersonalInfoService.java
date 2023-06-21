@@ -16,4 +16,6 @@ public interface PersonalInfoService {
     UserInfoDTO getUserInfo(Long userId);
 
     Boolean updateUserInfo(String userName,Integer age,String sex);
+
+    Boolean updateUserInfo(Long userId,String userName,Integer age,String sex);
 }

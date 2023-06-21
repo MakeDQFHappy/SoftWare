@@ -66,4 +66,26 @@ public class PersonalInfoServiceImpl implements PersonalInfoService {
         usersMapper.updateByPrimaryKey(users);
         return true;
     }
+
+    @Override
+    public Boolean updateUserInfo(Long userId, String userName, Integer birthyear, String sex) {
+        if(userName==null || birthyear == null||sex == null){
+            return false;
+        }
+        if(userName.length()>20){
+            return false;
+        }
+        if(birthyear>2023||birthyear<1900){
+            return false;
+        }
+        if(!sex.equals("男") && !sex.equals("女")){
+            return false;
+        }
+        Users users = usersMapper.selectByPrimaryKey(userId);
+        users.setUserName(userName);
+        users.setBirthYear(birthyear);
+        users.setSex(sex);
+        usersMapper.updateByPrimaryKey(users);
+        return true;
+    }
 }
