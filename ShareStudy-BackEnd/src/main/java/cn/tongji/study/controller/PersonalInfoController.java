@@ -3,6 +3,7 @@ package cn.tongji.study.controller;
 import cn.tongji.study.dto.UserInfoDTO;
 import cn.tongji.study.service.OssService;
 import cn.tongji.study.service.PersonalInfoService;
+import com.sun.jdi.LongValue;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -82,11 +83,12 @@ public class PersonalInfoController {
     public ResponseEntity<String>updateUserInfo(
             @RequestBody Map<String,Object> data
     ){
-        System.out.println(data);
-        Long userId=Long.parseLong((String)data.get("userId"));
+        System.out.println(data.get("userId"));
+        Long userId=Long.valueOf(String.valueOf(data.get("userId")));
+
         String userName= (String) data.get("userName");
         String sex=(String)data.get("sex");
-        Integer age= Integer.parseInt((String)data.get("age"));
+        Integer age=Integer.valueOf(String.valueOf(data.get("age")));
         try {
             if(!personalInfoService.updateUserInfo(userId,userName,age,sex)){
                 return ResponseEntity.status(403).body(null);

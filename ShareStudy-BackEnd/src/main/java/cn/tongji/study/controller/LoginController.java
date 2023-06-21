@@ -31,6 +31,7 @@ public class LoginController {
             LoginDTO loginDTO = loginService.academicLogin(academicNum, password);
             if(loginDTO!=null){
                 StpUtil.login(loginDTO.getUserId());
+                loginDTO.setUserToken(StpUtil.getTokenValue());
                 return ResponseEntity.ok(loginDTO);
             }
             else {
@@ -51,6 +52,7 @@ public class LoginController {
             LoginDTO loginDTO = loginService.emailLogin(email, password);
             if(loginDTO!=null){
                 StpUtil.login(loginDTO.getUserId());
+                loginDTO.setUserToken(StpUtil.getTokenValue());
                 return ResponseEntity.ok(loginDTO);
             }
             else {
