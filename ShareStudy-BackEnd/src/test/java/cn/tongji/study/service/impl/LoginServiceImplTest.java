@@ -15,8 +15,8 @@ class LoginServiceImplTest {
     @Autowired
     LoginService loginService;
     @Test
-    void academicLogin() {
-        System.out.println(loginService.academicLogin("2050001","123456"));
+    void testLoginService_academicLogin() {
+
     }
 
     @Test

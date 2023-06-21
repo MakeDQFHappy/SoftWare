@@ -389,13 +389,13 @@ public class QAServiceImpl implements QAService {
         }
         AnswersExample example1=new AnswersExample();
         AnswersExample.Criteria criteria1=example1.createCriteria();
-        criteria1.andAnswererIdEqualTo(answerid);
+        criteria1.andAnswerIdEqualTo(answerid);
         List<Answers> answers = answersMapper.selectByExampleWithBLOBs(example1);
         if(answers.size()==0){
             return false;
         }
         AnswerCollections answerCollections=new AnswerCollections();
-        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        Long myId=userid;
         answerCollections.setCollectionId(YitIdHelper.nextId());
         answerCollections.setAnswerId(answerid);
         answerCollections.setUserId(myId);
@@ -426,13 +426,13 @@ public class QAServiceImpl implements QAService {
         }
         AnswersExample example1=new AnswersExample();
         AnswersExample.Criteria criteria1=example1.createCriteria();
-        criteria1.andAnswererIdEqualTo(answerid);
+        criteria1.andAnswerIdEqualTo(answerid);
         List<Answers> answers = answersMapper.selectByExampleWithBLOBs(example1);
         if(answers.size()==0){
             return false;
         }
         Likes likes=new Likes();
-        Long myId=Long.parseLong((String) StpUtil.getLoginId());
+        Long myId=userid;
         likes.setLikeId(YitIdHelper.nextId());
         likes.setTargetId(answerid);
         likes.setUserId(myId);
