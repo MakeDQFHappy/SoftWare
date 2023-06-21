@@ -38,6 +38,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void sendFriendRequest(String introduction,Long receiverId) {
+
         //如果已经发送过好友请求,就重设介绍
         FriendApplicationsExample example=new FriendApplicationsExample();
         FriendApplicationsExample.Criteria criteria=example.createCriteria();
@@ -67,6 +68,65 @@ public class FriendServiceImpl implements FriendService {
         Timestamp timestamp=new Timestamp(date.getTime());
         friendApplication.setCreateTime(timestamp);
         friendApplicationsMapper.insert(friendApplication);
+    }
+
+    public Boolean verifyId(Long id){
+        UsersExample example=new UsersExample();
+        UsersExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(id);
+        List<Users> users = usersMapper.selectByExample(example);
+        return users.size()>0;
+    }
+
+    @Override
+    public Boolean sendFriendRequest(Long senderId, String introduction, Long receiverId) {
+        //检验用户是否存在
+        if(!verifyId(senderId)||!verifyId(receiverId)){
+            return false;
+        }
+        //检验介绍是否超过50个字
+        if(introduction.length()>50){
+            return false;
+        }
+        //检验是否发送和接收者是同一个人
+        if(Objects.equals(senderId, receiverId)){
+            return false;
+        }
+        //检验是否已经是好友
+        if(!checkFriend(senderId,receiverId)){
+            return false;
+        }
+
+        //如果已经发送过好友请求,就重设介绍
+        FriendApplicationsExample example=new FriendApplicationsExample();
+        FriendApplicationsExample.Criteria criteria=example.createCriteria();
+        criteria.andApplicantIdEqualTo(Long.parseLong((String)StpUtil.getLoginId()))
+                .andReceiverIdEqualTo(receiverId)
+                .andStatusEqualTo((short)0);
+        List<FriendApplications> friendApplications = friendApplicationsMapper.selectByExample(example);
+        if(!friendApplications.isEmpty()){
+            friendApplications.get(0).setIntroduction(introduction);
+            TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+            TimeZone.setDefault(time);
+            Date date = new Date();
+            Timestamp timestamp=new Timestamp(date.getTime());
+            friendApplications.get(0).setCreateTime(timestamp);
+            return true;
+        }
+        //发送好友请求
+        FriendApplications friendApplication=new FriendApplications();
+        friendApplication.setApplicationId(YitIdHelper.nextId());
+        friendApplication.setApplicantId(Long.parseLong((String)StpUtil.getLoginId()));
+        friendApplication.setStatus((short) 0);
+        friendApplication.setReceiverId(receiverId);
+        friendApplication.setIntroduction(introduction);
+        TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
+        TimeZone.setDefault(time);
+        Date date = new Date();
+        Timestamp timestamp=new Timestamp(date.getTime());
+        friendApplication.setCreateTime(timestamp);
+        friendApplicationsMapper.insert(friendApplication);
+        return true;
     }
 
     @Override
@@ -204,6 +264,21 @@ public class FriendServiceImpl implements FriendService {
         return  friendsId;
     }
 
+    public List<Long> getMyFriendsId(Long myId){
+        FriendsExample example=new FriendsExample();
+        FriendsExample.Criteria criteria=example.createCriteria();
+        criteria.andFriendIdEqualTo(myId);
+        FriendsExample.Criteria criteria1=example.or();
+        criteria1.andUserIdEqualTo(myId);
+        List<Friends> friends = friendsMapper.selectByExampleWithBLOBs(example);
+        List<Long> friendsId=new ArrayList<>();
+        for (Friends friend: friends) {
+            Long friendId= friend.getFriendId().equals(myId)?friend.getUserId():friend.getFriendId();
+            friendsId.add(friendId);
+        }
+        return  friendsId;
+    }
+
     public Integer countNotRead(Long myId,Long senderId){
         FriendPrivateMessagesExample example=new FriendPrivateMessagesExample();
         FriendPrivateMessagesExample.Criteria criteria=example.createCriteria();
@@ -249,6 +324,12 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public Boolean checkFriend(Long friendId) {
         List<Long> myFriendsId = getMyFriendsId();
+        return myFriendsId.contains(friendId);
+    }
+
+    @Override
+    public Boolean checkFriend(Long senderId, Long friendId) {
+        List<Long> myFriendsId = getMyFriendsId(senderId);
         return myFriendsId.contains(friendId);
     }
 

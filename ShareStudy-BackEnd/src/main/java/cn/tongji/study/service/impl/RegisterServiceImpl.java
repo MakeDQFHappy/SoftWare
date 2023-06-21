@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * @Author : 王晨
@@ -101,19 +98,32 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public Boolean insertUser(RegisterDTO registerDTO) {
+        //检验学号是否存在
         if(academicExist(registerDTO.getAcademicNumber())){
             return false;
         }
+        //检验学号与姓名是否匹配
         if(!verifyAcademicNumber(registerDTO.getAcademicNumber(),registerDTO.getRealName())){
             return false;
         }
+        //检验是否为空
         if(registerDTO.getUserName()==null||registerDTO.getSex()==null||registerDTO.getEmail()==null||registerDTO.getBirthYear()==null){
             return false;
         }
+        //检验用户名是否大于二十
         if(registerDTO.getUserName().length()>20){
             return false;
         }
+        //检验邮箱是否被注册
         if(!verifyEmail(registerDTO.getEmail())){
+            return false;
+        }
+        //检验密码长度
+        if(registerDTO.getPassword().length()<6||registerDTO.getPassword().length()>20){
+            return false;
+        }
+        //检验性别
+        if(!Objects.equals(registerDTO.getSex(), "男") && !Objects.equals(registerDTO.getSex(), "nv")){
             return false;
         }
         Users users=new Users();

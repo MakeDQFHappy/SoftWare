@@ -16,6 +16,8 @@ import java.util.List;
 public interface FriendService {
     void sendFriendRequest(String introduction,Long receiverId);
 
+    Boolean sendFriendRequest(Long senderId,String introduction,Long receiverId);
+
     List<ReceiveFriendReqDTO> getFriendRequest();
 
     List<ReceiveFriendReqDTO> getMyRequest();
@@ -33,6 +35,8 @@ public interface FriendService {
     void removeFriend(Long friendKey);
 
     Boolean checkFriend(Long friendId);
+
+    Boolean checkFriend(Long senderId,Long friendId);
 
     void deleteRequest(Long applicationId);
 

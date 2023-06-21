@@ -83,11 +83,12 @@ public class PersonalInfoController {
             @RequestBody Map<String,Object> data
     ){
         System.out.println(data);
+        Long userId=Long.parseLong((String)data.get("userId"));
         String userName= (String) data.get("userName");
         String sex=(String)data.get("sex");
         Integer age= Integer.parseInt((String)data.get("age"));
         try {
-            if(!personalInfoService.updateUserInfo(userName,age,sex)){
+            if(!personalInfoService.updateUserInfo(userId,userName,age,sex)){
                 return ResponseEntity.status(403).body(null);
             }
             return ResponseEntity.ok("更改用户信息成功");
