@@ -93,14 +93,14 @@ public class FriendServiceImpl implements FriendService {
             return false;
         }
         //检验是否已经是好友
-        if(!checkFriend(senderId,receiverId)){
+        if(checkFriend(senderId,receiverId)){
             return false;
         }
 
         //如果已经发送过好友请求,就重设介绍
         FriendApplicationsExample example=new FriendApplicationsExample();
         FriendApplicationsExample.Criteria criteria=example.createCriteria();
-        criteria.andApplicantIdEqualTo(Long.parseLong((String)StpUtil.getLoginId()))
+        criteria.andApplicantIdEqualTo(senderId)
                 .andReceiverIdEqualTo(receiverId)
                 .andStatusEqualTo((short)0);
         List<FriendApplications> friendApplications = friendApplicationsMapper.selectByExample(example);
@@ -116,7 +116,7 @@ public class FriendServiceImpl implements FriendService {
         //发送好友请求
         FriendApplications friendApplication=new FriendApplications();
         friendApplication.setApplicationId(YitIdHelper.nextId());
-        friendApplication.setApplicantId(Long.parseLong((String)StpUtil.getLoginId()));
+        friendApplication.setApplicantId(senderId);
         friendApplication.setStatus((short) 0);
         friendApplication.setReceiverId(receiverId);
         friendApplication.setIntroduction(introduction);
