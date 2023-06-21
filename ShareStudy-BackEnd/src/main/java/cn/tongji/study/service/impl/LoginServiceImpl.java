@@ -70,7 +70,6 @@ public class LoginServiceImpl implements LoginService {
         if(users.size()==0){
             return null;
         }
-        StpUtil.login(users.get(0).getUserId());
         TimeZone time=TimeZone.getTimeZone("Etc/GMT-8");
         TimeZone.setDefault(time);
         Date date = new Date();

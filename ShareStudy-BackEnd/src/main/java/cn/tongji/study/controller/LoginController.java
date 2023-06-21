@@ -30,6 +30,7 @@ public class LoginController {
         try {
             LoginDTO loginDTO = loginService.academicLogin(academicNum, password);
             if(loginDTO!=null){
+                StpUtil.login(loginDTO.getUserId());
                 return ResponseEntity.ok(loginDTO);
             }
             else {
