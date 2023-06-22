@@ -101,12 +101,12 @@ public class FriendServiceImpl implements FriendService {
     if (introduction.length() > 50) {
       return false;
     }
-    //检验是否发送和接收者是同一个人
-    if (Objects.equals(senderId, receiverId)) {
-      return false;
-    }
+//    //检验是否发送和接收者是同一个人
+//    if (Objects.equals(senderId, receiverId)) {
+//      return false;
+//    }
     //检验是否已经是好友
-    if (checkFriend(senderId, receiverId)) {
+    if (!checkFriend(senderId, receiverId)) {
       return false;
     }
     //如果已经发送过好友请求,就重设介绍
